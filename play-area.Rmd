@@ -10,9 +10,14 @@ library()
 
 
 ```{r setup, include=FALSE}
-x = 60
-N = 100
+alpha = 61
+beta = 41
+theta = seq(0, 1, by=0.001)
 
 prior = 1.0
+lik = dbeta(theta, alpha, beta)
+post = prior * lik 
+
+plot(theta, post, xlab = "Theta", ylab = "Posterior Density", type = "l")
 ```
 
