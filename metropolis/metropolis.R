@@ -1,5 +1,5 @@
 # Source the model file
-source("metropolis-model.R")
+source("Documents/Masters/STATS 731/bayesian-inference/metropolis/metropolis-model.R")
 
 # Number of iterations to do
 steps = 100000
@@ -69,4 +69,6 @@ for(iteration in 1:steps)
         cat("\n")
     }
 }
+
+# trace plots for different parameters
 

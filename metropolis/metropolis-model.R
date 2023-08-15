@@ -10,6 +10,7 @@ step_sizes = c(1, 1, 1)
 
 # If these are nonzero, they set the scale of a log-t
 # distribution for the step sizes.
+# don't need to change step size significantly as Brendon has added enough ... what???
 scale_step_sizes = c(3, 3, 3)
 
 # A dataset
@@ -38,8 +39,8 @@ log_prob = function(params)
         return(-Inf)
     log_prior = log_prior - log(params["sigma"])
 
-    log_likelihood = sum(dnorm(data$x,
-                         mean=params["mu"], sd=params["sigma"], log=TRUE))
+    log_likelihood = sum(dnorm(data$y,
+                         mean=params["m"]*data$x + params["b"], sd=params["sigma"], log=TRUE))
 
     return(log_prior + log_likelihood)
 }
