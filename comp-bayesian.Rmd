@@ -1,0 +1,20 @@
+
+### A chill implementation of MC
+
+```{r}
+log_prob = function(theta) 
+{
+  return(-0.5*theta^2)
+}
+
+
+```
+
+
+# 
+
+```{r}
+
+```
+
+
