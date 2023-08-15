@@ -6,11 +6,11 @@ num_params = 3
 parameter_names = c("m", "b", "sigma")
 
 # Step sizes for proposals
-step_sizes = c(1, 1)
+step_sizes = c(1, 1, 1)
 
 # If these are nonzero, they set the scale of a log-t
 # distribution for the step sizes.
-scale_step_sizes = c(3, 3)
+scale_step_sizes = c(3, 3, 3)
 
 # A dataset
 # data = list(x = c(0.044103595329532, -0.922186227194728, 0.0960010565013454, 
@@ -22,7 +22,7 @@ data = list(x=c(1.17, 2.97, 3.26, 4.69, 5.83, 6, 6.41),
             N=7)
 
 # A sensible starting point
-starting_point = c(0.0, 1.0)
+starting_point = c(1.0, 0.0, 1.0)
 names(starting_point) = parameter_names
 
 # Function that takes a vector of parameters and returns the log posterior,
