@@ -1,5 +1,6 @@
 # Source the model file
 source("Documents/Masters/STATS 731/bayesian-inference/metropolis/metropolis-model.R")
+library(ggplot2)
 
 # Number of iterations to do
 steps = 100000
@@ -70,5 +71,38 @@ for(iteration in 1:steps)
     }
 }
 
+output_df = read.csv("metropolis-output.csv")
+
 # trace plots for different parameters
-plot()
+# todo: clip burnin
+plot(1:10000, output_df$m, xlab = "Iterations", ylab = "m", title("Trace Plot of m"))
+plot(1:10000, output_df$b, xlab = "Iterations", ylab = "b", title("Trace Plot of b"))
+plot(1:10000, output_df$sigma, xlab = "Iterations", ylab = "sigma", title("Trace Plot of Sigma"))
+
+# marginal posterior distribution of m
+hist(output_df$m, breaks = 100, xlab = "m", title("Marginal POsterior Distribution of m"))
+
+# joint posterior distribution of m and b (scatter)
+plot(output_df$m, output_df$b, xlab = "m", ylab = "b", title("Joint Posterior Distribution of m and b"))
+
+# general scatter plot
+pairs(output_df)
+
+# autocorrelation check
+acf(output_df$m)
+acf(output_df$b)
+acf(output_df$sigma)
+
+# significant correlation until 50 steps. Would we have roughly the same number of effective independent posterior samples?
+
+data = list(x=c(1.17, 2.97, 3.26, 4.69, 5.83, 6, 6.41),
+            y=c(78.93, 58.2, 67.47, 37.47, 45.65, 32.92, 29.97),
+            N=7)
+
+{
+plot(data$x, data$y)
+
+for (i in 1:1000) {
+  abline(a = output_df$b[i], b = output_df$m[i], col = rgb(0, 0, 1, alpha = 0.05))
+}
+}

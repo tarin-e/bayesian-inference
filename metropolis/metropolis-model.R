@@ -61,3 +61,4 @@ generate_proposal = function(params)
     # Return modified vector
     return(params)
 }
+
