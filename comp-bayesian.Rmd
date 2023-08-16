@@ -2,19 +2,49 @@
 ### A chill implementation of MC
 
 ```{r}
+# we use logs as this prevents under/overflow
 log_prob = function(theta) 
 {
+  # assume target distribution is a standard normal
   return(-0.5*theta^2)
 }
 
+theta = 0.0
+logp = log_prob(theta)
+sigma = 1.0
 
+keep = numeric(100000)
+# Move the walker around
+for(i in 1:100000)
+{
+  # generate proposed new position
+  proposal = theta + sigma*rnorm(1)
+  logp_prop = log_prob(proposal)
+  # evaluate proposal wrt current position
+  log_alpha = logp_prop - logp
+  
+  if(runif(1) < exp(log_alpha))
+  {
+    # accept the proposal
+    theta = proposal
+    logp = logp_prop
+  }
+  
+  keep[i] = theta
+}
+
+plot(keep, type = "l")
 ```
 
-
-# 
 
 ```{r}
-
+hist(keep, breaks = 100)
 ```
-
-
+```{r}
+# remove burn-in
+# keep = keep[100:1000]
+```
+```{r}
+acf(keep)
+```
+Lags less than 10 show a fair bit of autocorrelation -> we can't use IID

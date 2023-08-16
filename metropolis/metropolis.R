@@ -71,4 +71,4 @@ for(iteration in 1:steps)
 }
 
 # trace plots for different parameters
-
+plot()
