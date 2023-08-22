@@ -1,5 +1,5 @@
 ```{r setup, include=FALSE}
-model = "model
+model_1 = "model
 {
   # Regression coefficients
   beta0 ~ dnorm(0, 1/1000^2)
@@ -49,7 +49,7 @@ thin = 10
 library("rjags")
 
 # Create a JAGS model object
-jm = jags.model(textConnection(model), data)
+jm = jags.model(textConnection(model_1), data)
 
 # Do some MCMC
 results = coda.samples(jm, variable_names, steps, thin=thin)
@@ -71,7 +71,36 @@ Make this change to the model and run it again. Plot the joint posterior for β0
 after the change.
 
 ```{r}
+model_2 = "model
+{
+  # Regression coefficients
+  beta0 ~ dnorm(0, 1/1000^2)
+  beta1 ~ dnorm(0, 1/1000^2)
+  
+  # Noise standard deviation
+  log_sigma ~ dnorm(0, 1/10^2)
+  sigma <- exp(log_sigma)
+  
+  # Data
+  for(i in 1:length(y))
+  {
+    mu[i] <- beta0 + beta1*(x[i] - mean(x))
+    y[i] ~ dnorm(mu[i], 1/sigma^2)
+  }
+}
+"
 
+# Create a JAGS model object
+jm = jags.model(textConnection(model_2), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+
+pairs(results)
 ```
 
+Beta0 and beta1 appear appropriately normally distributed
 
