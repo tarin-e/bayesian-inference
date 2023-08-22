@@ -61,7 +61,7 @@ pairs(results)
 ```
 Strong dependance between beta0 and beta1
 
-### Strong dependence can cause trouble for JAGS (though it wasn’t too bad here). The
+### 1c) Strong dependence can cause trouble for JAGS (though it wasn’t too bad here). The
 strong dependence can be removed by re-defining the covariate(s) as differences from their
 arithmetic mean _____. In this case, the change is:
 
@@ -104,3 +104,10 @@ pairs(results)
 
 Beta0 and beta1 appear appropriately normally distributed
 
+### 1d) 
+
+Pen and paper, need to equate coefficients to find relationship between beta0 and beta1.
+
+### 1e)
+
+Okay do this later haha.
