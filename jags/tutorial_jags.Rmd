@@ -1,0 +1,62 @@
+```{r setup, include=FALSE}
+model = "model
+{
+  # Regression coefficients
+  beta0 ~ dnorm(0, 1/1000^2)
+  beta1 ~ dnorm(0, 1/1000^2)
+  
+  # Noise standard deviation
+  log_sigma ~ dnorm(0, 1/10^2)
+  sigma <- exp(log_sigma)
+  
+  # Data
+  for(i in 1:length(y))
+  {
+    mu[i] <- beta0 + beta1*x[i]
+    y[i] ~ dnorm(mu[i], 1/sigma^2)
+  }
+}
+"
+
+# A dataset
+data = read.csv("jumping.csv")
+
+# Variables to monitor
+variable_names = c("mu", "sigma", "a")
+
+# How many proper steps?
+steps = 100000
+
+# Thinning?
+thin = 10
+
+# Import the rjags library
+library("rjags")
+
+# Create a JAGS model object
+jm = jags.model(textConnection(model), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+
+
+```
+
+### 1a) Plot the data so you know what you’re looking at. Also, read the model closely and make
+sure you understand its assumptions.
+
+```{r}
+plot(data$x, data$y, xlab = "x", ylab = "y")
+```
+
+### 1b) Run the regression model and plot the joint posterior of the two coefficients β0 and β1.
+You should see a fairly strong dependence. Can you explain why this occurs? Hint: It’s
+something to do with the x-values, and it might be clearer after you’ve done (c).
+
+```{r}
+
+```
+
