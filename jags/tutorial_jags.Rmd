@@ -22,8 +22,21 @@ model = "model
 data = read.csv("jumping.csv")
 
 # Variables to monitor
-variable_names = c("mu", "sigma", "a")
+variable_names = c("mu", "sigma")
+```
 
+### 1a) Plot the data so you know what you’re looking at. Also, read the model closely and make
+sure you understand its assumptions.
+
+```{r}
+plot(data$x, data$y, xlab = "x", ylab = "y")
+```
+
+### 1b) Run the regression model and plot the joint posterior of the two coefficients β0 and β1.
+You should see a fairly strong dependence. Can you explain why this occurs? Hint: It’s
+something to do with the x-values, and it might be clearer after you’ve done (c).
+
+```{r}
 # How many proper steps?
 steps = 100000
 
@@ -41,22 +54,5 @@ results = coda.samples(jm, variable_names, steps, thin=thin)
 
 # Extract chains as data frame
 results = as.data.frame(results[[1]])
-
-
-```
-
-### 1a) Plot the data so you know what you’re looking at. Also, read the model closely and make
-sure you understand its assumptions.
-
-```{r}
-plot(data$x, data$y, xlab = "x", ylab = "y")
-```
-
-### 1b) Run the regression model and plot the joint posterior of the two coefficients β0 and β1.
-You should see a fairly strong dependence. Can you explain why this occurs? Hint: It’s
-something to do with the x-values, and it might be clearer after you’ve done (c).
-
-```{r}
-
 ```
 
