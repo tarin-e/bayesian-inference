@@ -4,10 +4,7 @@ output: html_document
 date: "2023-08-14"
 ---
 
-```{r}
-library()
-```
-
+### Assignment 1
 
 ```{r setup, include=FALSE}
 alpha = 61
@@ -19,5 +16,41 @@ lik = dbeta(theta, alpha, beta)
 post = prior * lik 
 
 plot(theta, post, xlab = "Theta", ylab = "Posterior Density", type = "l")
+```
+
+### Assignment 2
+
+#### 1d)
+
+```{r}
+theta = seq(0, 1, by=0.001)
+
+prior_alpha = 1.0
+prior_beta = 0.5
+
+posterior_alpha = 7
+posterior_beta = 4.5
+
+prior = dgamma(theta, prior_alpha, prior_beta)
+
+posterior = dgamma(theta, posterior_alpha, posterior_beta)
+
+{
+plot(theta, prior, xlab = "Theta", ylab = "Prior Density", type = "l")
+plot(theta, posterior, xlab = "Theta", ylab = "Posterior Density", type = "l")
+}
+```
+
+#### 2a)
+
+```{r}
+theta = seq(0, 1, by=0.001)
+
+prior_alpha = 7
+prior_beta = 3
+
+prior = dbeta(theta, prior_alpha, prior_beta)
+
+
 ```
 

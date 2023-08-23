@@ -111,3 +111,10 @@ Pen and paper, need to equate coefficients to find relationship between beta0 an
 ### 1e)
 
 Okay do this later haha.
+
+### 2a)
+
+```{r}
+
+```
+
