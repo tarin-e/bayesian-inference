@@ -70,12 +70,60 @@ Probabilities sum to 1, as proven.
 
 ```{r}
 theta = seq(0, 1, by=0.001)
- 
-x = 3
-n = 5
 
-lik = dbinom(x, prob = theta, size = n)
+# why do we multiply the two likelihood functions though?
+practise.lik = dbinom(3, prob = theta, size = 5)
+comp.lik = dbinom(1, prob = theta^2, size = 2)
+total_lik = practise.lik * comp.lik
 
-plot(theta, lik, xlab = "Theta", ylab = "Likelihood Function", type = 'l')
+{
+plot(theta, total_lik/sum(total_lik), ylab = "Likelihood Probability Functions", type='l')
+lines(theta, practise.lik/sum(practise.lik), col='red')
+lines(theta, comp.lik/sum(comp.lik), col='blue')
+}
+```
+
+#### 2c)
+
+```{r}
+prior_alpha = 7
+prior_beta = 3
+
+prior = dbeta(theta, prior_alpha, prior_beta)
+post = prior * total_lik
+
+plot(theta, post, xlab = "Theta", ylab = "Posterior Density", type = 'l')
+
+post_norm = post/sum(post) 
+
+plot(theta, post_norm, xlab = "Theta", ylab = "Posterior Probability", type = 'l')
+```
+
+```{r}
+post_sum = cumsum(post_norm)
+
+cred_min_val = 0.025
+cred_max_val = 0.975
+
+cred_min_val_diff = abs(post_sum - cred_min_val)
+cred_max_val_diff = abs(post_sum - cred_max_val)
+
+cred_min_idx = which.min(cred_min_val_diff)
+cred_max_idx = which.min(cred_max_val_diff)
+
+{
+plot(theta, post_norm, xlab = "Theta", ylab = "Posterior Probability", type = 'l')
+abline(v = theta[cred_min_idx])
+abline(v = theta[cred_max_idx])
+}
+```
+
+#### 2d)
+
+```{r}
+predictive_lik = dbinom(1, prob = theta^2, size = 1)
+# choose competition likelihood function
+success_next_comp = sum(post_norm * predictive_lik)
+success_next_comp
 ```
 
