@@ -1,15 +1,13 @@
-
-### A chill implementation of MC
-
+A chill implementation of MC
 ```{r}
 # we use logs as this prevents under/overflow
 log_prob = function(theta) 
 {
   # assume target distribution is a standard normal
-  return(-0.5*theta^2)
+  return(-0.5*(theta/10)^2)
 }
 
-theta = 0.0
+theta = 100
 logp = log_prob(theta)
 sigma = 1.0
 
@@ -32,7 +30,16 @@ for(i in 1:100000)
   
   keep[i] = theta
 }
+```
 
+With Transients
+```{r}
+plot(keep, type = "l")
+```
+
+Remove Burn-In 
+```{r}
+keep = keep[500:length(keep)]
 plot(keep, type = "l")
 ```
 
@@ -40,10 +47,8 @@ plot(keep, type = "l")
 ```{r}
 hist(keep, breaks = 100)
 ```
-```{r}
-# remove burn-in
-# keep = keep[100:1000]
-```
+
+Auto-correlation of Keep
 ```{r}
 acf(keep)
 ```
