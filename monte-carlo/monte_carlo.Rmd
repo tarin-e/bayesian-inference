@@ -4,23 +4,27 @@ A chill implementation of MC
 log_prob = function(theta) 
 {
   # assume target distribution is a standard normal
-  return(-0.5*(theta/10)^2)
+  return(-0.5*(theta/1)^2)
 }
 
 theta = 100
 logp = log_prob(theta)
-sigma = 1.0
+sigma = 100
 
 keep = numeric(100000)
 # Move the walker around
 for(i in 1:100000)
 {
   # generate proposed new position
+  # if proposal size is too small, proposal points will be really close to current points
+  # so we end up accepting everything -> becomes random walk
+  # Note: the proposal size is a hyperparameter we need to tune
   proposal = theta + sigma*rnorm(1)
   logp_prop = log_prob(proposal)
   # evaluate proposal wrt current position
   log_alpha = logp_prop - logp
   
+  # for small values of log_alpha, exp(log_alpha) -> 1
   if(runif(1) < exp(log_alpha))
   {
     # accept the proposal
