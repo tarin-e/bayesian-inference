@@ -31,7 +31,6 @@ names(starting_point) = parameter_names
 log_prob = function(params)
 {
     log_prior = 0.0
-    
     # Improper flat prior for mu requires no action
     
     # Improper log-uniform for sigma requires this

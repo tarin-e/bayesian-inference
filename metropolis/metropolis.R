@@ -1,5 +1,5 @@
 # Source the model file
-source("Documents/Masters/STATS 731/bayesian-inference/metropolis/metropolis-model.R")
+source("Documents/masters/STATS 731/bayesian-inference/metropolis/metropolis-model.R")
 library(ggplot2)
 
 # Number of iterations to do
@@ -65,6 +65,7 @@ for(iteration in 1:steps)
         close(fileConn)
 
         # Print a message to screen.
+        # we want an acceptance rate between 1 - 0 (and not)
         accept_frac = accepted/iteration
         cat(paste("Iteration", iteration, ". Acceptance rate =", accept_frac))
         cat("\n")
