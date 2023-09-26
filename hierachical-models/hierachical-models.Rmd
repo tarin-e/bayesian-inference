@@ -1,0 +1,9 @@
+
+```{r}
+
+```
+
+```{r}
+kobe_df = read.csv("../data/kobe_bryant.csv")
+```
+

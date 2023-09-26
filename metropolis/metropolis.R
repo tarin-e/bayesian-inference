@@ -1,5 +1,4 @@
 # Source the model file
-source("Documents/masters/STATS 731/bayesian-inference/metropolis/metropolis-model.R")
 library(ggplot2)
 
 # Number of iterations to do
