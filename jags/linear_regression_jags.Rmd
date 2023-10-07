@@ -63,7 +63,7 @@ Strong dependance between beta0 and beta1
 
 ### 1c) Strong dependence can cause trouble for JAGS (though it wasn’t too bad here). The
 strong dependence can be removed by re-defining the covariate(s) as differences from their
-arithmetic mean _____. In this case, the change is:
+arithmetic mean. In this case, the change is:
 
 mu[i] <- beta0 + beta1*(x[i] - mean(x))
 
@@ -112,9 +112,60 @@ Pen and paper, need to equate coefficients to find relationship between beta0 an
 
 Okay do this later haha.
 
-### 2a)
+### 2a) Change the model to...
+mu[i] <- beta0 + beta1*x[i] + beta2*x[i]^2
+
+to fit a quadratic curve to the data. Run JAGS and plot the marginal posterior distribution
+for β2. Hint: The posterior gets quite correlated so you will need a lot of iterations and
+some thinning. Don’t forget to monitor beta2 or you’ll have to run it twice!
 
 ```{r}
+model_3 = "model
+{
+  # Regression coefficients
+  beta0 ~ dnorm(0, 1/1000^2)
+  beta1 ~ dnorm(0, 1/1000^2)
+  beta2 ~ dnorm(0, 1/1000^2)
+  
+  # Noise standard deviation
+  log_sigma ~ dnorm(0, 1/10^2)
+  sigma <- exp(log_sigma)
+  
+  # Data
+  for(i in 1:length(y))
+  {
+    mu[i] <- beta0 + beta1*(x[i] - mean(x)) + beta2*(x[i] - mean(x))^2
+    y[i] ~ dnorm(mu[i], 1/sigma^2)
+  }
+}
+"
 
+# How many proper steps?
+steps = 100000
+
+# Thinning?
+thin = 10
+
+variable_names = c("beta0", "beta1", "beta2")
+
+# Create a JAGS model object
+jm = jags.model(textConnection(model_3), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+
+plot(results$beta2, type = "l")
+```
+```{r}
+plot(results)
 ```
 
+
+```{r}
+hist(results$beta2, breaks = 100, xlab = "m")
+```
+
+Looking cute after we subtract the mean to remove correlation. We didn't need to increase iterations + thinning all that much.
