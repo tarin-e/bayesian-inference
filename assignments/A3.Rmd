@@ -1,17 +1,13 @@
 ```{r}
-coal_model = "model
+model = "model
 {
   # priors
   lambda_1 ~ dunif(0, 10)
   lambda_1 ~ dunif(0, 10)
   t_c ~ dunif(1851, 1962)
   
-  # Noise standard deviation
-  log_sigma ~ dnorm(0, 1/10^2)
-  sigma <- exp(log_sigma)
-  
   # likelihood
-  for(i in 1:N)
+  for(i in 1:length(y))
   {
     y[i] ~ step(t_c - t[i]) * dpois(lambda_1) + step(t[i] - t_c) * dpois(lambda_2)
   }
@@ -22,7 +18,7 @@ coal_model = "model
 Loading coal dataset
 
 ```{r}
-data = list(t=c(1851, 1852, 1853, 1854, 1855, 1856, 1857,
+data = data.frame(t=c(1851, 1852, 1853, 1854, 1855, 1856, 1857,
                       1858, 1859, 1860, 1861, 1862, 1863, 1864,
                       1865, 1866, 1867, 1868, 1869, 1870, 1871,
                       1872, 1873, 1874, 1875, 1876, 1877, 1878,
@@ -46,16 +42,20 @@ data = list(t=c(1851, 1852, 1853, 1854, 1855, 1856, 1857,
                       0, 2, 1, 0, 0, 0, 1, 1, 0, 2, 3, 3, 1, 1,
                       2, 1, 1, 1, 1, 2, 4, 2, 0, 0, 0, 1, 4, 0,
                       0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1))
+```
 
-data$N = length(data$y)
+Plotting data to know what I'm looking at.
+
+```{r}
+plot(data$t, data$y, xlab = "t", ylab = "y")
 ```
 
 
-Running JAGS
+Running JAGS.
 
 ```{r}
 # Variables to monitor
-variable_names = c("mu", "sigma", "y")
+variable_names = c("theta_1", "theta_2", "t_c", "y")
 
 # How many proper steps?
 steps = 100000
