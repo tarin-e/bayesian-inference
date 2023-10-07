@@ -10,11 +10,10 @@ coal_model = "model
   log_sigma ~ dnorm(0, 1/10^2)
   sigma <- exp(log_sigma)
   
-  # Data
+  # likelihood
   for(i in 1:N)
   {
-    # todo: find poisson function
-    y[i] ~ step(t_c[i] - t) * #poisson1 + step(t - t_c[i]) * #poisson2
+    y[i] ~ step(t_c - t[i]) * dpois(lambda_1) + step(t[i] - t_c) * dpois(lambda_2)
   }
 }
 "
