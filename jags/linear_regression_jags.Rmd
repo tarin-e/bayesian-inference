@@ -169,3 +169,11 @@ hist(results$beta2, breaks = 100, xlab = "m")
 ```
 
 Looking cute after we subtract the mean to remove correlation. We didn't need to increase iterations + thinning all that much.
+
+2b) In your opinion, is there much evidence for the curvature term being nonzero? Note: We’ll
+be studying this formally soon, and will be able to directly compute the probability that
+the curvature term is nonzero, thus dispensing with some of the hand wavy talk about
+there being ‘no evidence against’ propositions, etc.
+
+Uh jesus I don't know man. Yea? Look at the posterior.
+
