@@ -1,0 +1,22 @@
+```{r}
+coal_model = "model
+{
+  # priors
+  lambda_1 ~ dunif(0, 10)
+  lambda_1 ~ dunif(0, 10)
+  t_c ~ dunif(1851, 1962)
+  
+  # Noise standard deviation
+  log_sigma ~ dnorm(0, 1/10^2)
+  sigma <- exp(log_sigma)
+  
+  # Data
+  for(i in 1:length(y))
+  {
+    mu[i] <- beta0 + beta1*x[i]
+    y[i] ~ dnorm(mu[i], 1/sigma^2)
+  }
+}
+"
+```
+
