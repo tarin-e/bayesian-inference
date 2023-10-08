@@ -218,6 +218,12 @@ results = as.data.frame(results[[1]])
 hist(results$y_new, breaks = 100)
 ```
 
+```{r}
+sorted = sort(results$y_new)
+l = length(sorted)
+c(sorted[0.025*l], sorted[0.975*l])
+```
 
+Credible interval appears quite a lot wider when there's uncertainty about the weightlifting ability of the woman.
 
 
