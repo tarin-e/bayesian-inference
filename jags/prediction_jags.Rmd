@@ -21,7 +21,7 @@ model = "model
   log_nu ~ dunif(0, 5)
   nu <- exp(log_nu)
   
-  for(i in 1:N)
+  for(i in 1:length(y))
   {
     mu[i] <- a + b*(x[i] - mean(x)) + c*(x[i] - mean(x))^2
     y[i] ~ dt(mu[i], 1/sigma^2, nu)
@@ -31,7 +31,7 @@ model = "model
 ```
 
 ```{r}
-data = list(N = 28, x = c(37.5, 51.5, 61.3, 61.3, 63.6, 66.1,
+data = data.frame(x = c(37.5, 51.5, 61.3, 61.3, 63.6, 66.1,
 70, 92.7, 90.5, 90.5, 94.8, 97, 97, 97, 102, 102, 103.6, 100.4,
 108.4, 114, 115.3, 114.9, 114.7, 123.6, 125.8, 119.1, 118.9,
 141.1), y = c(6.4, 10.2, 12.4, 13, 13.2, 13, 12.7, 13.9, 15.5,
@@ -65,11 +65,159 @@ it.
 
 ```{r}
 plot(data$x, data$y)
+```
+
+Looks mostly linear, slight quadratic trend.
+
+### 1b) Plot many regression curves through the data using parameter values from the MCMC
+output, to provide a visualisation of the uncertainty of the fit.
+
+```{r}
+{
+plot(data$x, data$y)
 
 # plot lines
 for (i in 1:1000) {
-  line(x = data$x, y = data$a[i] + results$b[i](data$x - mean(data$x)) + results[], col = rgb(0, 0, 1, alpha = 0.05))
+  lines(x = data$x, y = results$a[i] + results$b[i]*(data$x - mean(data$x)) + results$c[i]*(data$x - mean(data$x))^2, col = rgb(0, 0, 1, alpha = 0.05))
 }
 }
 ```
+### 1c) 
+
+```{r}
+model = "model
+{
+  # a is in metres
+  log_a ~ dnorm(2, 1/2^2)
+  a <- exp(log_a)
+  
+  # b is in metres per kilogram
+  log_b ~ dnorm(-2, 1/2^2)
+  b <- exp(log_b)
+  
+  # c is in metres per square kilogram, it's a bit harder
+  # to get a handle on so I'm going wider here
+  c ~ dt(0, 1, 1)
+  # Sigma is in metres
+  log_sigma ~ dnorm(2, 1/3^2)
+  sigma <- exp(log_sigma)
+  
+  # Nu (shape parameter of t distribution) is dimensionless
+  log_nu ~ dunif(0, 5)
+  nu <- exp(log_nu)
+  
+  for(i in 1:length(y))
+  {
+    mu[i] <- a + b*(x[i] - mean(x)) + c*(x[i] - mean(x))^2
+    y[i] ~ dt(mu[i], 1/sigma^2, nu)
+  }
+  
+  # point prediction nodes
+  x_new <- 40
+  mu_new <- a + b*(x_new - mean(x)) + c*(x_new - mean(x))^2
+  y_new ~ dt(mu_new, 1/sigma^2, nu)
+}
+"
+
+# variables to monitor
+variable_names = c("a", "b", "c", "sigma", "nu", "y_new")
+
+# How many proper steps?
+steps = 100000
+
+# Thinning?
+thin = 10
+
+# Import the rjags library
+library("rjags")
+
+# Create a JAGS model object
+jm = jags.model(textConnection(model), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+
+hist(results$y_new, breaks = 100)
+```
+
+```{r}
+sorted = sort(results$y_new)
+l = length(sorted)
+c(sorted[0.025*l], sorted[0.975*l])
+```
+
+
+Given the data, there is a 95% probability that the woman who lifts 40 kg can shotput between
+5.5 and 10.9 metres.
+
+### 1d) A slightly harder prediction: Add node(s) to the model to predict the shot-put
+distance for a woman whose weightlifting ability we do not know, but to which we assign
+a Normal(40, 102)T (0, ) prior2. Compute a 95% credible interval for it. Sanity check: It
+should be wider than the interval in (c), for obvious reasons.
+
+```{r}
+model = "model
+{
+  # a is in metres
+  log_a ~ dnorm(2, 1/2^2)
+  a <- exp(log_a)
+  
+  # b is in metres per kilogram
+  log_b ~ dnorm(-2, 1/2^2)
+  b <- exp(log_b)
+  
+  # c is in metres per square kilogram, it's a bit harder
+  # to get a handle on so I'm going wider here
+  c ~ dt(0, 1, 1)
+  # Sigma is in metres
+  log_sigma ~ dnorm(2, 1/3^2)
+  sigma <- exp(log_sigma)
+  
+  # Nu (shape parameter of t distribution) is dimensionless
+  log_nu ~ dunif(0, 5)
+  nu <- exp(log_nu)
+  
+  for(i in 1:length(y))
+  {
+    mu[i] <- a + b*(x[i] - mean(x)) + c*(x[i] - mean(x))^2
+    y[i] ~ dt(mu[i], 1/sigma^2, nu)
+  }
+  
+  # point prediction nodes
+  sigma_new <- 10
+  x_new ~ dnorm(40, 1/sigma_new^2)T(0,)
+  mu_new <- a + b*(x_new - mean(x)) + c*(x_new - mean(x))^2
+  y_new ~ dt(mu_new, 1/sigma^2, nu)
+}
+"
+
+# variables to monitor
+variable_names = c("a", "b", "c", "sigma", "nu", "y_new")
+
+# How many proper steps?
+steps = 100000
+
+# Thinning?
+thin = 10
+
+# Import the rjags library
+library("rjags")
+
+# Create a JAGS model object
+jm = jags.model(textConnection(model), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+
+hist(results$y_new, breaks = 100)
+```
+
+
+
 
