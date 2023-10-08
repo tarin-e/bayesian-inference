@@ -226,4 +226,18 @@ c(sorted[0.025*l], sorted[0.975*l])
 
 Credible interval appears quite a lot wider when there's uncertainty about the weightlifting ability of the woman.
 
+### 2a) Do the exercise I posed in the lecture slides, to re-write the model so that the parameters
+are the logits ℓi = log (θi/(1 − θi)), and that it the prior for the logits that is normal (given
+the hyperparameters):
+
+ℓi | μ, σ ∼ Normal μ, σ2 (1)
+
+Take care to assign sane priors to μ and σ.
+
+```{r}
+kobe_data = read.csv("../data/kobe_bryant.csv")
+```
+
+
+
 

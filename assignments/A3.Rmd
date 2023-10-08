@@ -3,14 +3,13 @@ model = "model
 {
   # priors
   lambda_1 ~ dunif(0, 10)
-  lambda_1 ~ dunif(0, 10)
+  lambda_2 ~ dunif(0, 10)
   t_c ~ dunif(1851, 1962)
   
   # likelihood
   for(i in 1:length(y))
   {
-    # y[i] ~ step(t_c - t[i]) * dpois(lambda_1) + step(t[i] - t_c) * dpois(lambda_2)
-    y[i] ~ dpois(lambda_1)
+    y[i] ~ dpois(ifelse(step(t_c - t[i]), lambda_1, lambda_2))
   }
 }
 "
@@ -56,7 +55,7 @@ Running JAGS.
 
 ```{r}
 # Variables to monitor
-variable_names = c("theta_1", "theta_2")
+variable_names = c("lambda_1", "lambda_2", "t_c")
 
 # How many proper steps?
 steps = 100000
@@ -75,5 +74,9 @@ results = coda.samples(jm, variable_names, steps, thin=thin)
 
 # Extract chains as data frame
 results = as.data.frame(results[[1]])
+```
+
+```{r}
+plot(results)
 ```
 
