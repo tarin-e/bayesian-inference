@@ -1,3 +1,7 @@
+## Assignment 3
+
+### 1a,b) a) Implement the priors for the three parameters in JAGS. Implement the likelihood in JAGS. Hint: JAGS provides the step() function which returns 0 if the argument is negative and 1 otherwise.
+
 ```{r}
 model = "model
 {
@@ -11,6 +15,10 @@ model = "model
   {
     y[i] ~ dpois(ifelse(step(t_c - t[i]), lambda_1, lambda_2))
   }
+  
+  # prediction node
+  t_new <- 1963
+  y_new ~ dpois(ifelse(step(t_c - t_new), lambda_1, lambda_2))
 }
 "
 ```
@@ -55,7 +63,7 @@ Running JAGS.
 
 ```{r}
 # Variables to monitor
-variable_names = c("lambda_1", "lambda_2", "t_c")
+variable_names = c("lambda_1", "lambda_2", "t_c", "y_new")
 
 # How many proper steps?
 steps = 100000
@@ -79,4 +87,57 @@ results = as.data.frame(results[[1]])
 ```{r}
 plot(results)
 ```
+Appears uncorrelated, great!
+
+### 1c) ompute credible intervals for the three parameters.
+
+lambda_1
+
+```{r}
+lambda_1_sorted = sort(results$lambda_1)
+l = length(lambda_1_sorted)
+c(lambda_1_sorted[0.025*l], lambda_1_sorted[0.975*l])
+```
+
+lambda_2
+
+```{r}
+lambda_2_sorted = sort(results$lambda_2)
+l = length(lambda_2_sorted)
+c(lambda_2_sorted[0.025*l], lambda_2_sorted[0.975*l])
+```
+
+t_c
+
+```{r}
+t_c_sorted = sort(results$t_c)
+l = length(t_c_sorted)
+c(t_c_sorted[0.025*l], t_c_sorted[0.975*l])
+```
+
+### 1d) Plot the data with regression curves sampled from the posterior distribution going
+through it.
+
+```{r}
+{
+plot(data$t, data$y)
+
+# plot lines
+for (i in 1:1000) {
+  lines(x = data$x, y = results$a[i] + results$b[i]*(data$x - mean(data$x)) + results$c[i]*(data$x - mean(data$x))^2, col = rgb(0, 0, 1, alpha = 0.05))
+}
+}
+```
+
+### 1e) Add a node to the model to predict the number of deaths in 1963, and find the
+probability that this is three or more.
+
+```{r}
+hist(results$y_new, breaks = 100)
+```
+```{r}
+prob <- sum(results$y_new >= 3) / length(results$y_new)
+prob
+```
+
 
