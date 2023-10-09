@@ -224,7 +224,12 @@ hist(results_simple$`true_mass[1]`, breaks = 100, main = "Histogram of True Mass
 
 Appears roughly normally distributed
 
-Hierarchical Model
+### 2c) The hierarchical model’s prior has dependence between σ and the true mass parameters.
+Modify the model so that it expresses exactly the same prior assumptions, but the the prior has
+independence between all stochastic nodes. Hint: This is the ‘pre-whitening’ idea that we saw
+for the starling ANOVA model.
+
+Hierarchical Model with Pre-Whitening
 
 ```{r}
 hier_model = "model {
@@ -234,7 +239,9 @@ hier_model = "model {
   sigma <- exp(log_sigma)
   for(i in 1:length(measurement))
   {
-    true_mass[i] ~ dnorm(mu, 1/sigma^2)
+    # added pre-whitening
+    n[i] ~ dnorm(0, 1)
+    true_mass[i] <- mu + sigma*n[i]
     measurement[i] ~ dnorm(true_mass[i], 1/stdev[i]^2)
   }
 }"
