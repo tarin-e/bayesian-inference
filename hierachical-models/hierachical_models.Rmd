@@ -147,7 +147,7 @@ hist_results <- hist(results$successes_new, breaks = 100)
 breaks <- hist_results$breaks
 colors <- ifelse(breaks >= cred[1] & breaks <= cred[2], "red", "skyblue")
 
-hist(results$successes_new, breaks = 100, main = "Histogram of theta[1]", 
+hist(results$successes_new, breaks = 100, main = "Histogram of 100 new attempts", 
      xlab = "Theta[1]", ylab = "Frequency", col = colors)
 ```
 
