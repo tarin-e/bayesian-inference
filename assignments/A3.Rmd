@@ -118,16 +118,22 @@ c(t_c_sorted[0.025*l], t_c_sorted[0.975*l])
 through it.
 
 ```{r}
-{
-plot(data$t, data$y)
+t = seq(min(data$t), max(data$t), by=1)
+rows = sample(1:nrow(results), 500)
 
-# plot lines
-for (i in 1:1000) {
-  # wtf is a poisson, help pls!!!
-  lines(x = data$x, y = exp(-results$lambda_1[i]) * results$lambda_1[i]^data$x / factorial(data$x), col = rgb(0, 0, 1, alpha = 0.05))
+{
+plot(y ~ t, data)
+
+for (row in rows) {
+    y <- ifelse(t < results[row, "t_c"], 
+                results[row, "lambda_1"],
+                results[row, "lambda_2"])
+    lines(y ~ x, col=rgb(0, 0, 1, 0.1))
 }
 }
 ```
+
+Two poisson distributions poisson(lambda_1) and poisson(lambda_2) separated at a distribution of years t_c.
 
 ### 1e) Add a node to the model to predict the number of deaths in 1963, and find the
 probability that this is three or more.
@@ -163,18 +169,6 @@ simple_model = "model {
   for(i in 1:length(measurement))
   {
     true_mass[i] ~ dnorm(0, 1/1000^2)
-    measurement[i] ~ dnorm(true_mass[i], 1/stdev[i]^2)
-  }
-}"
-
-hier_model = "model {
-  # Casual wide priors now apply to the hyperparameters
-  mu ~ dnorm(0, 1/1000^2)
-  log_sigma ~ dnorm(0, 1/10^2)
-  sigma <- exp(log_sigma)
-  for(i in 1:length(measurement))
-  {
-    true_mass[i] ~ dnorm(mu, 1/sigma^2)
     measurement[i] ~ dnorm(true_mass[i], 1/stdev[i]^2)
   }
 }"
@@ -233,6 +227,18 @@ Appears roughly normally distributed
 Hierarchical Model
 
 ```{r}
+hier_model = "model {
+  # Casual wide priors now apply to the hyperparameters
+  mu ~ dnorm(0, 1/1000^2)
+  log_sigma ~ dnorm(0, 1/10^2)
+  sigma <- exp(log_sigma)
+  for(i in 1:length(measurement))
+  {
+    true_mass[i] ~ dnorm(mu, 1/sigma^2)
+    measurement[i] ~ dnorm(true_mass[i], 1/stdev[i]^2)
+  }
+}"
+
 # Variables to monitor
 variable_names_hier = c("mu", "sigma", "true_mass")
 
