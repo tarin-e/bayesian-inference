@@ -245,15 +245,21 @@ hier_model = "model {
     measurement[i] ~ dnorm(true_mass[i], 1/stdev[i]^2)
   }
 }"
+```
 
+2d) Run either version of the hierarchical model for a lot of iterations and summarise the
+posterior distributions for mu, sigma, and true mass[1] using any summaries you think are
+appropriate.
+
+```{r}
 # Variables to monitor
 variable_names_hier = c("mu", "sigma", "true_mass")
 
 # How many proper steps?
-steps = 100000
+steps = 1000000
 
 # Thinning?
-thin = 10
+thin = 100
 
 # Create a JAGS model object
 jm_hier = jags.model(textConnection(hier_model), black_holes_data)
@@ -265,3 +271,61 @@ results_hier = coda.samples(jm_hier, variable_names_hier, steps, thin=thin)
 results_hier = as.data.frame(results_hier[[1]])
 ```
 
+Summary for mu
+
+```{r}
+sorted = sort(results_hier$mu)
+l = length(sorted)
+cred = c(sorted[0.025*l], sorted[0.975*l])
+
+hist_results <- hist(results_hier$mu, breaks = 100)
+
+breaks <- hist_results$breaks
+colors <- ifelse(breaks >= cred[1] & breaks <= cred[2], "red", "skyblue")
+
+hist(results_hier$mu, breaks = 100, main = "Histogram of mu", 
+     xlab = "mu", ylab = "Frequency", col = colors)
+```
+```{r}
+cred
+```
+
+Summary for sigma
+
+```{r}
+sorted = sort(results_hier$sigma)
+l = length(sorted)
+cred = c(sorted[0.025*l], sorted[0.975*l])
+
+hist_results <- hist(results_hier$sigma, breaks = 100)
+
+breaks <- hist_results$breaks
+colors <- ifelse(breaks >= cred[1] & breaks <= cred[2], "red", "skyblue")
+
+hist(results_hier$sigma, breaks = 100, main = "Histogram of mu", 
+     xlab = "mu", ylab = "Frequency", col = colors)
+```
+
+```{r}
+cred
+```
+
+Summary for true_mass[1]
+
+```{r}
+sorted = sort(results_hier$`true_mass[1]`)
+l = length(sorted)
+cred = c(sorted[0.025*l], sorted[0.975*l])
+
+hist_results <- hist(results_hier$`true_mass[1]`, breaks = 100)
+
+breaks <- hist_results$breaks
+colors <- ifelse(breaks >= cred[1] & breaks <= cred[2], "red", "skyblue")
+
+hist(results_hier$`true_mass[1]`, breaks = 100, main = "Histogram of mu", 
+     xlab = "mu", ylab = "Frequency", col = colors)
+```
+
+```{r}
+cred
+```
