@@ -156,5 +156,51 @@ should be obvious in hindsight.
 
 ```{r}
 black_holes_data = read.csv("../data/black_hole_masses.csv")
+
+simple_model = "model
+{
+for(i in 1:length(measurement))
+{
+  # Casual wide prior for each true mass
+  true_mass[i] ~ dnorm(0, 1/1000^2)
+  measurement[i] ~ dnorm(true_mass[i], 1/stdev[i]^2)
+}
+}"
+
+hier_model = "model
+{
+# Casual wide priors now apply to the hyperparameters
+mu ~ dnorm(0, 1/1000^2)
+log_sigma ~ dnorm(0, 1/10^2)
+sigma <- exp(log_sigma)
+for(i in 1:length(measurement))
+{
+  true_mass[i] ~ dnorm(mu, 1/sigma^2)
+  measurement[i] ~ dnorm(true_mass[i], 1/stdev[i]^2)
+}
+}"
+```
+
+```{r}
+# Variables to monitor
+variable_names = c("true_mass")
+
+# How many proper steps?
+steps = 100000
+
+# Thinning?
+thin = 10
+
+# Import the rjags library
+library("rjags")
+
+# Create a JAGS model object
+jm = jags.model(textConnection(simple_model), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
 ```
 
