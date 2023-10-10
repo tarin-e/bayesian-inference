@@ -17,7 +17,8 @@ prior = prior / sum(prior)
 plot(mu, prior)
 
 # compute likelihood for H0
-lik_h0 = dnorm(data$x[1], 0, 1) * dnorm(data$x[2], 0, 1) * dnorm(data$x[3], 0, 1)
+lik_h0 = dnorm(data$x[1], 0, 1) * dnorm(data$x[2], 0, 1) * dnorm(data$x[3], 0, 1) 
+marg_lik_h0 = lik_h0
 ```
 
 1b) Calculate the likelihood for H1 as a function of μ and hence find the marginal likelihood for H1.
@@ -33,4 +34,25 @@ marg_lik_h1 = sum(prior * lik_h1)
 
 marg_lik_h1
 ```
+
+1c) Compute (i) the Bayes Factor; (ii) the posterior odds ratio assuming a prior odds ratio of 1; and (iii) the posterior probabilities of the two hypotheses.
+
+```{r}
+bayes_factor = marg_lik_h0 / marg_lik_h1
+
+prior_odds = 1
+
+posterior_odds = prior_odds * bayes_factor
+
+posterior_probs_h0 = prior * lik_h0 / (marg_lik_h0 + marg_lik_h1)
+plot(mu , posterior_probs_h0)
+```
+```{r}
+posterior_probs_h1 = prior * lik_h1 / (marg_lik_h0 + marg_lik_h1)
+plot(mu , posterior_probs_h1)
+```
+
+1d) What happens to the marginal likelihood as you widen the prior for μ under H1?
+
+It will get smaller.
 
