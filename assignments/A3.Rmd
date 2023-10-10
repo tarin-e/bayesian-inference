@@ -1,6 +1,13 @@
-## Assignment 3
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+### Assignment 3
+#### Tarin Eccleston
 
-### 1a,b) a) Implement the priors for the three parameters in JAGS. Implement the likelihood in JAGS. Hint: JAGS provides the step() function which returns 0 if the argument is negative and 1 otherwise.
+1a,b) Implement the priors for the three parameters in JAGS. Implement the likelihood in JAGS. Hint: JAGS provides the 
+step() function which returns 0 if the argument is negative and 1 otherwise.
 
 Loading coal dataset
 
@@ -59,8 +66,6 @@ Plotting data to know what I'm looking at.
 ```{r}
 plot(data$t, data$y, xlab = "t", ylab = "y")
 ```
-
-
 Running JAGS.
 
 ```{r}
@@ -88,7 +93,21 @@ plot(results)
 ```
 Appears uncorrelated, great!
 
-### 1c) ompute credible intervals for the three parameters.
+```{r}
+hist(results$lambda_1, breaks = 100)
+```
+
+```{r}
+hist(results$lambda_2, breaks = 100)
+```
+
+```{r}
+hist(results$t_c, breaks = 100)
+```
+
+Multi-modal... that's the right description right? Appears to be so for t_c due to switching between poisson distribution which uses lambda_1 and lambda_2.
+
+1c) Compute credible intervals for the three parameters.
 
 lambda_1
 
@@ -114,8 +133,7 @@ l = length(t_c_sorted)
 c(t_c_sorted[0.025*l], t_c_sorted[0.975*l])
 ```
 
-### 1d) Plot the data with regression curves sampled from the posterior distribution going
-through it.
+1d) Plot the data with regression curves sampled from the posterior distribution going through it.
 
 ```{r}
 t = seq(min(data$t), max(data$t), by=1)
@@ -128,15 +146,14 @@ for (row in rows) {
     y <- ifelse(t < results[row, "t_c"], 
                 results[row, "lambda_1"],
                 results[row, "lambda_2"])
-    lines(y ~ x, col=rgb(0, 0, 1, 0.1))
+    lines(y ~ t, col=rgb(0, 0, 1, 0.1))
 }
 }
 ```
 
 Two poisson distributions poisson(lambda_1) and poisson(lambda_2) separated at a distribution of years t_c.
 
-### 1e) Add a node to the model to predict the number of deaths in 1963, and find the
-probability that this is three or more.
+1e) Add a node to the model to predict the number of deaths in 1963, and find the probability that this is three or more.
 
 ```{r}
 hist(results$y_new, breaks = 100)
@@ -148,15 +165,18 @@ prob
 
 0.0736 probability that there are 3 or more deaths in 1963.
 
-### 2a) Draw a PGM for the simple model and a PGM for the hierarchical model. For the
-latter, I don’t mind whether you explicitly include the deterministic nodes, or merge sigma and
-log_sigma into one node for presentation purposes.
+2a) Draw a PGM for the simple model and a PGM for the hierarchical model. For the latter, I don’t mind whether you 
+explicitly include the deterministic nodes, or merge sigma and log_sigma into one node for presentation purposes.
 
 ```{r}
-# inselt .png here
+knitr::include_graphics("simple_pgm.png")
 ```
 
-### 2b) Run the simple model for a lot of iterations and obtain the posterior distribution for
+```{r}
+knitr::include_graphics("hier_pgm.png")
+```
+
+2b) Run the simple model for a lot of iterations and obtain the posterior distribution for
 the true log-mass of the first black hole. Summarise it using the posterior mean ± the posterior
 standard deviation, which for a normal posterior is a 68% central credible interval. The result
 should be obvious in hindsight.
@@ -224,10 +244,7 @@ hist(results_simple$`true_mass[1]`, breaks = 100, main = "Histogram of True Mass
 
 Appears roughly normally distributed
 
-### 2c) The hierarchical model’s prior has dependence between σ and the true mass parameters.
-Modify the model so that it expresses exactly the same prior assumptions, but the the prior has
-independence between all stochastic nodes. Hint: This is the ‘pre-whitening’ idea that we saw
-for the starling ANOVA model.
+2c) The hierarchical model’s prior has dependence between σ and the true mass parameters. Modify the model so that it expresses exactly the same prior assumptions, but the the prior has independence between all stochastic nodes. Hint: This is the ‘pre-whitening’ idea that we saw for the starling ANOVA model.
 
 Hierarchical Model with Pre-Whitening
 
@@ -247,9 +264,7 @@ hier_model = "model {
 }"
 ```
 
-2d) Run either version of the hierarchical model for a lot of iterations and summarise the
-posterior distributions for mu, sigma, and true mass[1] using any summaries you think are
-appropriate.
+2d) Run either version of the hierarchical model for a lot of iterations and summarise the posterior distributions for mu, sigma, and true mass[1] using any summaries you think are appropriate.
 
 ```{r}
 # Variables to monitor
@@ -302,8 +317,8 @@ hist_results <- hist(results_hier$sigma, breaks = 100)
 breaks <- hist_results$breaks
 colors <- ifelse(breaks >= cred[1] & breaks <= cred[2], "red", "skyblue")
 
-hist(results_hier$sigma, breaks = 100, main = "Histogram of mu", 
-     xlab = "mu", ylab = "Frequency", col = colors)
+hist(results_hier$sigma, breaks = 100, main = "Histogram of Sigma", 
+     xlab = "sigma", ylab = "Frequency", col = colors)
 ```
 
 ```{r}
@@ -317,13 +332,13 @@ sorted = sort(results_hier$`true_mass[1]`)
 l = length(sorted)
 cred = c(sorted[0.025*l], sorted[0.975*l])
 
-hist_results <- hist(results_hier$`true_mass[1]`, breaks = 100)
+hist_results <- hist(results_simple$`true_mass[1]`, breaks = 100)
 
 breaks <- hist_results$breaks
-colors <- ifelse(breaks >= cred[1] & breaks <= cred[2], "red", "skyblue")
+colors <- ifelse(breaks >= (true_mass_1_mean - true_mass_1_std) & breaks <= (true_mass_1_mean + true_mass_1_std), "red", "skyblue")
 
-hist(results_hier$`true_mass[1]`, breaks = 100, main = "Histogram of mu", 
-     xlab = "mu", ylab = "Frequency", col = colors)
+hist(results_simple$`true_mass[1]`, breaks = 100, main = "Histogram of True Mass of First Black Hole", 
+     xlab = "True Mass of First Black Hole", ylab = "Frequency", col = colors)
 ```
 
 ```{r}

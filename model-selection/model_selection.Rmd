@@ -1,0 +1,36 @@
+```{r}
+data = list(x=c(1.5, 2.5, 1.7), N=3)
+```
+
+
+Consider two hypotheses about the value of μ. Let H0 be the hypothesis that μ = 0, and let H1
+be the hypothesis that μ ̸ = 0 but that it has a uniform prior between -10 and 10.
+
+1a) Calculate the likelihood for H0.
+
+```{r}
+# priors
+mu = seq(-10, 10, 0.01)
+prior = dunif(mu, -10, 10)
+prior = prior / sum(prior)
+
+plot(mu, prior)
+
+# compute likelihood for H0
+lik_h0 = dnorm(data$x[1], 0, 1) * dnorm(data$x[2], 0, 1) * dnorm(data$x[3], 0, 1)
+```
+
+1b) Calculate the likelihood for H1 as a function of μ and hence find the marginal likelihood for H1.
+
+```{r}
+# compute likelihood for H1 as function of mu
+lik_h1 = dnorm(data$x[1], mu, 1) * dnorm(data$x[2], mu, 1) * dnorm(data$x[3], mu, 1)
+
+plot(mu, lik_h1)
+
+# compute marginal likelihood for H1 as function of mu
+marg_lik_h1 = sum(prior * lik_h1)
+
+marg_lik_h1
+```
+
