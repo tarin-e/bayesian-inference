@@ -1,0 +1,14 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-10-17"
+---
+
+2a) Do a classical t-test using R (this should be very easy). Write down the p-value, and write
+down the notation for what this probability is (i.e., it’s the probability of what conditional
+on what)
+
+```{r}
+
+```
+

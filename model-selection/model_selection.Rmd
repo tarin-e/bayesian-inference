@@ -1,7 +1,5 @@
 ### Class Example
 
-#### Grid method for Uniform Prior
-
 ```{r}
 theta = seq(0.001, 0.999, by=0.001)
 lik = dbinom(13, size=16, theta)
@@ -18,13 +16,13 @@ plot(theta, prior_uniform, type="l")
 
 ```{r}
 Z0 = dbinom(13, size=16, prob=0.5)
-Z1 = 0.001*sum(prior_uniform * lik)
+Z1 = sum(prior_uniform * lik)/length(prior_uniform * lik)
 
 bayes_factor_uniform = Z1/Z0
 bayes_factor_uniform
 ```
 
-6.9x more likely under the alternative hypothesis than the null hypothesis that theta = 0.5.
+6.9x more likely under the alternative hypothesis than the null hypothesis that theta = 0.5. Positive evidence.
 
 Jeffrey's Prior Bayes Factor
 
@@ -36,7 +34,7 @@ plot(theta, prior_jeff, type="l")
 
 ```{r}
 Z0 = dbinom(13, size=16, prob=0.5)
-Z2 = 0.001*sum(prior_jeff * lik)
+Z2 = sum(prior_jeff * lik)/length(prior_jeff * lik)
 
 bayes_factor_jeff = Z2/Z0
 bayes_factor_jeff
@@ -52,12 +50,21 @@ plot(theta, prior_similar, type="l")
 
 ```{r}
 Z0 = dbinom(13, size=16, prob=0.5)
-Z3 = 0.001*sum(prior_similar * lik)
+Z3 = sum(prior_similar * lik)/length(prior_similar * lik)
 
 bayes_factor_similar = Z3/Z0
 bayes_factor_similar
 ```
 
+Plot all priors together.
+
+```{r}
+{
+plot(theta, prior_uniform, type="l", ylim=c(0, 10), ylab = "priors")
+lines(theta, prior_jeff, col="green")
+lines(theta, prior_similar, col="blue")
+}
+```
 
 
 ### Tutorial
