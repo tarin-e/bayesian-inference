@@ -1,3 +1,67 @@
+### Class Example
+
+#### Grid method for Uniform Prior
+
+```{r}
+theta = seq(0.001, 0.999, by=0.001)
+lik = dbinom(13, size=16, theta)
+
+plot(theta, lik, type="l")
+```
+
+Uniform Prior Bayes Factor
+
+```{r}
+prior_uniform = rep(1, length(theta))
+plot(theta, prior_uniform, type="l")
+```
+
+```{r}
+Z0 = dbinom(13, size=16, prob=0.5)
+Z1 = 0.001*sum(prior_uniform * lik)
+
+bayes_factor_uniform = Z1/Z0
+bayes_factor_uniform
+```
+
+6.9x more likely under the alternative hypothesis than the null hypothesis that theta = 0.5.
+
+Jeffrey's Prior Bayes Factor
+
+```{r}
+prior_jeff = dbeta(theta, 0.5, 0.5)
+
+plot(theta, prior_jeff, type="l")
+```
+
+```{r}
+Z0 = dbinom(13, size=16, prob=0.5)
+Z2 = 0.001*sum(prior_jeff * lik)
+
+bayes_factor_jeff = Z2/Z0
+bayes_factor_jeff
+```
+
+Similar Prior Bayes Factor
+
+```{r}
+prior_similar = dbeta(theta, 5, 4)
+
+plot(theta, prior_similar, type="l")
+```
+
+```{r}
+Z0 = dbinom(13, size=16, prob=0.5)
+Z3 = 0.001*sum(prior_similar * lik)
+
+bayes_factor_similar = Z3/Z0
+bayes_factor_similar
+```
+
+
+
+### Tutorial
+
 ```{r}
 data = list(x=c(1.5, 2.5, 1.7), N=3)
 ```

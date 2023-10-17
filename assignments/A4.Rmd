@@ -1,0 +1,23 @@
+### Assignment 4
+#### Tarin Eccleston
+
+In this question, perform model averaging/selection to try to infer whether I used runif() or rexp().
+Let U be the proposition that it was runif() and E be the proposition that it was rexp(). If U is
+true, then the prior and sampling distribution are
+
+log b ∼ Normal (0, 1)
+xi | b ∼ Uniform(0, b)
+
+If E is true, then the prior and sampling distribution are
+
+log λ ∼ Normal (0, 1) (3)
+xi | λ ∼ Exponential(λ)
+
+
+1a) 
+
+
+```{r}
+
+```
+
