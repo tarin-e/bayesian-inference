@@ -14,10 +14,29 @@ log λ ∼ Normal (0, 1) (3)
 xi | λ ∼ Exponential(λ)
 
 
-1a) 
+1a) Both models E and U imply prior predictive distributions for the data, and hence
+the data mean x_bar. Would the two prior predictive distributions for̄ x_bar be the same or different?
+Explain your answer.
 
+Both E and U will have different prior predictive distributions (ppd) since both sampling distributions for E and U are different with exponential and uniform distributions respectively. This can be shown by the ppd formula shown before.
 
-```{r}
+Todo: insert formula here
 
-```
+1b) Part (a) implies that learning only x_bar would provide some information about whether
+E or U is true. Does this seem reasonable to you?
+
+Not sure bruv xoxo
+
+1c) Write down analytical expressions for the marginal likelihoods p(x | U ) and p(x | E).
+Retain all constant factors.
+
+Todo: double check this...
+
+$$
+p(x | U) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \frac{1}{b^2} e^{-\frac{1}{2} (\ln{b})^2} db
+$$
+$$
+p(x | E) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} e^{-(\frac{1}{2} (\ln{b})^2 + \lambda)} d\lambda
+$$
+1d) Numerically find the values of the two marginal likelihoods.
 
