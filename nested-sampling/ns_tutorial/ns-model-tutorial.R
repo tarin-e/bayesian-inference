@@ -22,8 +22,15 @@ us_to_params = function(us)
     names(params) = parameter_names
 
     # transform from Uniform(0 ,1) to the actual priors we want
-    params["mu"] = -1E6 + 2E6*us[1]
+    # 2a)
+    # params["mu"] = -1E6 + 2E6*us[1]
+    # 2b)
+    # params["mu"] = 0
+    # 2d)
     params["sigma"] = exp(qnorm(us[2], 0, 5))
+    
+    kappa = qt(us[1], df=1)
+    params["mu"] = kappa * params["sigma"]
 
     return(params)
 }

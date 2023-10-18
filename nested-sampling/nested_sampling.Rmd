@@ -60,3 +60,49 @@ source("ns_tutorial/nested-sampling-tutorial.R")
 results = read.csv("ns-output.csv")
 ```
 
+Results from NS run on H1
+
+Marginal likelihood: ln(Z) = -87.32934 +- 0.3664631.
+Information: H = 13.42952 nats.
+Effective posterior sample size = 498.
+Posterior samples saved in ns-posterior-samples.csv.
+
+Results from NS run on H0
+
+Marginal likelihood: ln(Z) = -83.29037 +- 0.1878688.
+Information: H = 3.529469 nats.
+Effective posterior sample size = 391.
+Posterior samples saved in ns-posterior-samples.csv.
+
+Posterior Odds
+
+P(H0|x) / P(H1|x) = (P(H0) / P(H1)) * (P(x|H0) / P(x|H1))
+
+= 1 * (exp(-83.29037) / exp(-87.32934))
+
+= 56.651
+
+We are 57x more in favour of the null hypothesis that mu = 0. This is due to the alternative hypothesis having a mega wide prior.
+
+2c) The apparent contradiction between the results of (i) and (ii) is sometimes called the Jeffreys-Lindley paradox. Explain, in words and/or diagrams, why the conclusion of part (ii) is actually valid for a reasoner whose prior beliefs are really described by the Uniform(-1000000, 1000000) prior
+
+Because if mu ~ Uniform(-1000000, 1000000), we are equally likely to get extreme values for mu which are much further from 0 or the true mu value. This makes it much more likely that the null model where mu = 0 is favourable than mu /= 0. In other words model selection is very sensitive to the prior. 
+
+The conclusion in ii) is valid if we have not seen our data.
+
+The t-test on the otherhand is sensitive to the data.
+
+2d) Harold Jeffreys had a suggestion for problems like this. The parameter σ already sets a scale for the problem (“we’re dealing with stuff around 100–300”), so conditional on σ, we can use σ to give us a suitable non-extreme prior for μ. 
+
+He suggested using a Cauchy distribution because of the heavy tails. Re-do part (ii) using μ ∼ Cauchy (0, σ) as the prior for μ given σ. Hint: Use κ = μ/σ as a parameter instead of μ, and then let μ ← κσ
+
+```{r}
+source("ns_tutorial/nested-sampling-tutorial.R")
+
+results = read.csv("ns-output.csv")
+```
+
+Marginal likelihood: ln(Z) = -78.73237 +- 0.2186847.
+Information: H = 4.782301 nats.
+Effective posterior sample size = 505.
+Posterior samples saved in ns-posterior-samples.csv.
