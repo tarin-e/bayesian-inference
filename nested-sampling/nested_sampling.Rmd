@@ -4,11 +4,59 @@ output: html_document
 date: "2023-10-17"
 ---
 
+The USA Junior Chess Olympics Research: Developing Memory and Verbal Reasoning” (New
+Horizons for Learning, April 2001; (available at www.newhorizons.org) describes a study in
+which sixth-grade students who had not previously played chess participated in a program in
+which they took chess lessons and played chess daily for 9 months. Each student took a memory
+test (the Test of Cognitive Skills) before starting the chess program and again at the end of
+the 9-month period. 
+
+The data below has the differences in scores after the chess program and
+before, for 12 students.
+
+```{r}
+data = list(x=c(340, 180, 210, 100, 100, 225, 90,
+225, 240, 55, -35, 5), N=12)
+```
+
 2a) Do a classical t-test using R (this should be very easy). Write down the p-value, and write
 down the notation for what this probability is (i.e., it’s the probability of what conditional
 on what)
 
 ```{r}
+t.test(data$x)
+```
 
+Alternatively
+
+```{r}
+t_test = mean(data$x) / (sd(data$x) / sqrt(data$N))
+t_test
+```
+
+
+The p-value is the probability of a more extreme value of the test statistic if H0 is true.
+
+t = x_mean / s / sqrt(N)
+
+where s is the sample standard deviation (the version with N − 1 in the denominator).
+
+The observed value of t was 4.564. The p-value is the probability of a more extreme value than this, under H0:
+  P (t ≥ 4.564 or t ≤ −4.564 | H0)
+
+2b) Do Bayesian model comparison of H0 vs. H1. You can compute marginal likelihoods using
+either Nested Sampling or another method if you prefer. For H1, use a Uniform(-1000000,
+1000000) prior for μ. Calculate the posterior odds ratio assuming a prior odds ratio of 1,
+and write down the probability notation for what this quantity is.
+
+H0 : mu = 0
+H1 : mu /= 0
+
+Todo: setup the file such that we run all the files from here
+
+```{r}
+source("ns_tutorial/nested-sampling-tutorial.R")
+
+results = read.csv("ns-output.csv")
 ```
 
