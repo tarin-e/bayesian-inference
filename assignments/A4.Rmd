@@ -92,10 +92,116 @@ As a result our posterior probabilities for  p(b | U, x) decreases. Hence our Ba
 
 Todo: link this up a bit better.
 
-2a)
+2a)  Implement Model A for Nested Sampling, and run it. In your answer, provide the fol-
+lowing: (i) num_params, (ii), parameter_names, (iii) us_to_params(), (iv) log_likelihood(), and (v) the estimated value of the marginal likelihood P (y | A) and its uncertainty.
 
 ```{r}
+source("../nested-sampling/ns_assignment/nested-sampling-assignment.R")
+```
+
+### Output code for Model A 
+
+Marginal likelihood: ln(Z) = -685.036 +- 0.3414809.
+Information: H = 11.66092 nats.
+Effective posterior sample size = 594.
+Posterior samples saved in ns-posterior-samples.csv.
+
+### Answers from ns-model
+
+num_params = 3
+
+parameter_names = c("beta_0", "beta_1", "sigma")
+
 colorado_df = read.csv("../data/colorado.csv")
+
+us_to_params = function(us)
+{
+    params = rep(NA, num_params)
+
+    names(params) = parameter_names
+
+    params["beta_0"] = exp(qnorm(us[1], 0, 5))
+    params["beta_1"] = qnorm(us[2], 0, params["beta_0"])
+    params["sigma"] = exp(qnorm(us[3], log(params["beta_0"]),1))
+
+    return(params)
+}
+
+log_likelihood = function(params)
+{
+    mu = params["beta_0"] + params["beta_1"]*colorado_df$t
+    logL = sum(dnorm(x = colorado_df$y, mean = mu, sd = params["sigma"], log = TRUE))
+    return(logL)
+}
+
+#### Marginal Likelihood
+
+```{r}
+Z_MA_mu = exp(-685.036)
+Z_MA_mu
+```
+
+#### Marginal Likelihood Error Range
+
+```{r}
+Z_MA_error = c(exp(-685.036 + 0.3414809), exp(-685.036 - 0.3414809))
+Z_MA_error
 ```
 
 
+```{r}
+source("../nested-sampling/ns_assignment/nested-sampling-assignment.R")
+```
+
+### Output code for Model B 
+
+Marginal likelihood: ln(Z) = -683.9028 +- 0.366068.
+Information: H = 13.40058 nats.
+Effective posterior sample size = 712.
+Posterior samples saved in ns-posterior-samples.csv.
+
+### Answers from ns-model
+
+num_params = 4
+
+parameter_names = c("beta_0", "beta_1", "beta_2", "sigma")
+
+colorado_df = read.csv("../data/colorado.csv")
+
+us_to_params = function(us)
+{
+    params = rep(NA, num_params)
+
+    names(params) = parameter_names
+
+    params["beta_0"] = exp(qnorm(us[1], 0, 5))
+    params["beta_1"] = qnorm(us[2], 0, params["beta_0"])
+    params["beta_2"] = qnorm(us[3], 0, params["beta_0"])
+    params["sigma"] = exp(qnorm(us[4], log(params["beta_0"]),1))
+
+    return(params)
+}
+
+log_likelihood = function(params)
+{
+    mu = params["beta_0"] + params["beta_1"]*colorado_df$t + (colorado_df$t >= 0.875)*params["beta_2"]*(colorado_df$t - 0.875)
+    logL = sum(dnorm(x = colorado_df$y, mean = mu, sd = params["sigma"], log = TRUE))
+    return(logL)
+}
+
+#### Marginal Likelihood
+
+```{r}
+Z_MB_mu = exp(-683.9028)
+Z_MB_mu
+```
+
+#### Marginal Likelihood Error Range
+
+```{r}
+Z_MB_error = c(exp(-683.9028 + 0.366068), exp(-683.9028 - 0.366068))
+Z_MB_error
+```
+
+
+```{r}
