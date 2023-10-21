@@ -20,17 +20,19 @@ Explain your answer.
 
 Both E and U will have different prior predictive distributions (ppd) since both sampling distributions for E and U are different with exponential and uniform distributions respectively. This can be shown by the ppd formula shown before.
 
+Todo: double check this
+
 Todo: insert formula here
 
 1b) Part (a) implies that learning only x_bar would provide some information about whether
 E or U is true. Does this seem reasonable to you?
 
-Not sure bruv xoxo
+Yes it does. Todo: expand on this
 
 1c) Write down analytical expressions for the marginal likelihoods p(x | U ) and p(x | E).
-Retain all constant factors.
+Retain all constant factors.???
 
-Todo: double check this...
+This is wrong. Well slightly. Make sure to refer to screenshot.
 
 $$
 p(x | U) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \frac{1}{b^2} e^{-\frac{1}{2} (\ln{b})^2} db
@@ -39,4 +41,61 @@ $$
 p(x | E) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} e^{-(\frac{1}{2} (\ln{b})^2 + \lambda)} d\lambda
 $$
 1d) Numerically find the values of the two marginal likelihoods.
+
+```{r}
+source("../nested-sampling/ns_assignment/nested-sampling-assignment.R")
+```
+
+for p(x | U):
+
+Marginal likelihood: ln(Z) = -0.3483763 +- 0.05943507.
+Information: H = 0.3532527 nats.
+Effective posterior sample size = 337.
+Posterior samples saved in ns-posterior-samples.csv.
+
+for p(x | E):
+
+Marginal likelihood: ln(Z) = -7.059105 +- 0.07194591.
+Information: H = 0.5176214 nats.
+Effective posterior sample size = 356.
+Posterior samples saved in ns-posterior-samples.csv.
+
+1e) ???
+
+Find the Bayes Factor (either way around) and also the posterior probabilities of U
+and E, assuming prior probabilities of 1/2 each.
+
+```{r}
+# Bayes factor : U/E
+marg_U = exp(-0.3483763)
+marg_E = exp(-7.059105)
+
+bayes_factor =  marg_U / marg_E
+bayes_factor
+```
+
+
+The uniform distribution is ~800 times more likely to produce observed data compared to exponential distribution.
+
+Prior Odds = 1 since both prior probabilities = 1/2
+
+```{r}
+posterior_probs = 1* c(marg_U, marg_E) / sum(c(marg_U, marg_E))
+posterior_probs
+```
+
+1f) If p(b | U ) were made much wider, the Bayes Factor would strongly favour E. Explain why this occurs.
+
+We have limited data therefore our posterior distributions are sensitive to the choice of prior. If our uniform prior margins for p(b | U ) widen, we effectively decrease the prior probabilities for the same region which overlap the likelihood. We are also widening the likelihood since b is the standard deviation.  
+
+As a result our posterior probabilities for  p(b | U, x) decreases. Hence our Bayes factor then decreases and favours E instead of U.
+
+Todo: link this up a bit better.
+
+2a)
+
+```{r}
+colorado_df = read.csv("../data/colorado.csv")
+```
+
 
