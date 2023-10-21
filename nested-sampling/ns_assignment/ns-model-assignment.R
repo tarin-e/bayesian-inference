@@ -8,9 +8,9 @@ num_params = 1
 num_params = 3
 ### 2A
 
-### 2B
+### 2B, C
 num_params = 4
-### 2B
+### 2B, C
 
 # Define the names of the parameters.
 # If you can't be bothered, use parameter_names=rep(NA, num_params).
@@ -87,12 +87,12 @@ log_likelihood = function(params)
     ### 2A
     
     ### 2B
-    mu = params["beta_0"] + params["beta_1"]*colorado_df$t + (colorado_df$t >= 0.875)*params["beta_2"]*(colorado_df$t - 0.875)
-    logL = sum(dnorm(x = colorado_df$y, mean = mu, sd = params["sigma"], log = TRUE))
+    # mu = params["beta_0"] + params["beta_1"]*colorado_df$t + (colorado_df$t >= 0.875)*params["beta_2"]*(colorado_df$t - 0.875)
+    # logL = sum(dnorm(x = colorado_df$y, mean = mu, sd = params["sigma"], log = TRUE))
     ### 2B
     
     ### 2C
-    mu = params["beta_0"] + params["beta_1"]*colorado_df$t + params["beta_2"]&(colorado_df$t)^2
+    mu = params["beta_0"] + params["beta_1"]*colorado_df$t + params["beta_2"]*(colorado_df$t)^2
     logL = sum(dnorm(x = colorado_df$y, mean = mu, sd = params["sigma"], log = TRUE))
     ### 2C
     
