@@ -17,9 +17,12 @@ xi | λ ∼ Exponential(λ)
 the data mean x_bar. Would the two prior predictive distributions for̄ x_bar be the same or different?
 Explain your answer.
 
-Both E and U will have different prior predictive distributions (ppd) since both sampling distributions for E and U are different with exponential and uniform distributions respectively. This can be shown by the ppd formula shown before.
+Both E and U will have different prior predictive distributions (ppd) since both sampling distributions for E and U are different with exponential and uniform distributions respectively. The prior distributions remain the same. The ppd formula shown below.
 
-Todo: insert formula here
+$$
+p(x) =  \int_{0}^{\infty} p(x_i | \theta) p(\theta) d\theta
+$$
+
 
 1b) Part (a) implies that learning only x_bar would provide some information about whether
 E or U is true. Does this seem reasonable to you?
@@ -27,12 +30,10 @@ E or U is true. Does this seem reasonable to you?
 Yes it does. If the main difference between E or U is the choice of uniform vs exponential sampling distributions, and we are given x_bar, then we can evaluate the posterior distribution in terms of x_bar. E or U with the highest posterior distribution would hence be the most true model.
 
 1c) Write down analytical expressions for the marginal likelihoods p(x | U ) and p(x | E).
-Retain all constant factors.???
-
-This is wrong. Well slightly. Make sure to refer to screenshot.
+Retain all constant factors.
 
 $$
-p(x | U) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \frac{1}{b^2} e^{-\frac{1}{2} (\ln{b})^2} db
+p(x | U) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} (\prod_{i = 1}^{5}\frac{1}{b})\frac{1}{b} e^{-\frac{1}{2} (\ln{b})^2} db
 $$
 $$
 p(x | E) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \lambda^4 e^{-(\frac{1}{2} (\ln{\lambda})^2 + 5\lambda\bar{x})} d\lambda
@@ -57,6 +58,16 @@ Information: H = 0.5176214 nats.
 Effective posterior sample size = 356.
 Posterior samples saved in ns-posterior-samples.csv.
 
+```{r}
+Z_U = exp(-0.3483763)
+Z_U
+```
+
+```{r}
+Z_E = exp(-7.059105)
+Z_E
+```
+
 1e)
 
 Find the Bayes Factor (either way around) and also the posterior probabilities of U
@@ -64,17 +75,13 @@ and E, assuming prior probabilities of 1/2 each.
 
 ```{r}
 # Bayes factor : U/E
-marg_U = exp(-0.3483763)
-marg_E = exp(-7.059105)
-
-bayes_factor =  marg_U / marg_E
+bayes_factor =  Z_U / Z_E
 bayes_factor
 ```
 
-
 The uniform distribution is ~800 times more likely to produce observed data compared to exponential distribution.
 
-Prior probabilities = 1/2
+Prior probabilities for U and E: 1/2
 
 ```{r}
 prior_probs = c(1/2, 1/2)
