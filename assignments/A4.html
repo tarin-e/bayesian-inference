@@ -361,11 +361,12 @@ data, and hence the data mean x_bar. Would the two prior predictive
 distributions for̄ x_bar be the same or different? Explain your
 answer.</p>
 <p>Both E and U will have different prior predictive distributions (ppd)
-since both sampling distributions for E and U are different with
-exponential and uniform distributions respectively. The prior
-distributions remain the same. The ppd formula shown below.</p>
+for x_bar since both sampling distributions for E and U are different
+with exponential and uniform distributions respectively. The prior
+distributions remain the same. The general ppd formula shown below.</p>
 <p><span class="math display">\[
-p(x) =  \int_{0}^{\infty} p(x_i | \theta) p(\theta) d\theta
+p(\bar{x}) =  \int_{0}^{\infty} (\prod_{i = 1}^{5} p(x_i| \theta))
+p(\theta) d\theta
 \]</span></p>
 <p>1b) Part (a) implies that learning only x_bar would provide some
 information about whether E or U is true. Does this seem reasonable to
@@ -378,10 +379,12 @@ model.</p>
 <p>1c) Write down analytical expressions for the marginal likelihoods
 p(x | U ) and p(x | E). Retain all constant factors.</p>
 <p><span class="math display">\[
-p(x | U) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} (\prod_{i =
-1}^{5}\frac{1}{b})\frac{1}{b} e^{-\frac{1}{2} (\ln{b})^2} db
-\]</span> <span class="math display">\[
-p(x | E) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \lambda^4
+p(\bar{x} | U) =  \frac{1}{\sqrt{2\pi}} \int_{x_{max}}^{\infty}
+(\prod_{i = 1}^{5}\frac{1}{b})\frac{1}{b} e^{-\frac{1}{2} (\ln{b})^2} db
+\]</span></p>
+<p>Likelihood function is not 1/b for all x.</p>
+<p><span class="math display">\[
+p(\bar{x} | E) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \lambda^4
 e^{-(\frac{1}{2} (\ln{\lambda})^2 + 5\lambda\bar{x})} d\lambda
 \]</span> 1d) Numerically find the values of the two marginal
 likelihoods.</p>
@@ -467,14 +470,14 @@ bayes_factor</code></pre>
 observed data compared to exponential distribution.</p>
 <p>Prior probabilities for U and E: 1/2</p>
 <pre class="r"><code>prior_probs = c(1/2, 1/2)
-lik = c(-0.3483763, -7.059105)
+lik = c(exp(-0.3483763), exp(-7.059105))
 
 h = prior_probs * lik
 Z = sum(h)
 
 posterior_odds = h/Z
 posterior_odds</code></pre>
-<pre><code>## [1] 0.04703033 0.95296967</code></pre>
+<pre><code>## [1] 0.998783705 0.001216295</code></pre>
 <p>1f) If p(b | U ) were made much wider, the Bayes Factor would
 strongly favour E. Explain why this occurs.</p>
 <p>We have limited data therefore our posterior distributions are

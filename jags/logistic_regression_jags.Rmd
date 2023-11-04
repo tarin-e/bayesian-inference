@@ -1,0 +1,70 @@
+```{r setup, include=FALSE}
+library(LaplacesDemon)
+
+model_1 = "model
+{
+  # Regression coefficients
+  beta0 ~ dnorm(0, 1/1000^2)
+  beta1 ~ dnorm(0, 1/1000^2)
+  
+  # Data
+  for(i in 1:50)
+  {
+    y[i] <- beta0 + beta1*(views[i] - mean(views))
+    p[i] <- exp(y[i]) / (1 + exp(y[i]))
+    plays[i] ~ dbern(p[i])
+  }
+}
+"
+
+# A dataset
+data = read.csv("../data/videos.csv")
+
+# Variables to monitor
+variable_names = c("beta0", "beta1", "plays")
+```
+
+```{r}
+plot(data$views, data$plays, xlab = "x", ylab = "y")
+```
+
+```{r}
+# How many proper steps?
+steps = 100000
+
+# Thinning?
+thin = 10
+
+# Import the rjags library
+library("rjags")
+
+# Create a JAGS model object
+jm = jags.model(textConnection(model_1), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+
+plot(results$beta0, results$beta1, cex=0.1)
+```
+```{r}
+mean(results$beta1 > 0)
+```
+
+```{r}
+{
+    plot(data$views, data$plays, xlim=c(0, 10000))
+    # Which rows to plot a curve for
+    rows = sample(1:nrow(results), 100)
+    x = seq(0, 10000, by=10)
+    xbar = mean(data$views)
+  
+    for(row in rows) {
+      y = 1/(1 + exp(-(results$beta0[row] + results$beta1[row]*(x-xbar))))
+      lines(x, y, col=rgb(0, 0, 0, alpha=0.2))
+    }
+}
+```
+

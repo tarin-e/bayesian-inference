@@ -106,11 +106,12 @@ Beta0 and beta1 appear appropriately normally distributed
 
 ### 1d) 
 
-Pen and paper, need to equate coefficients to find relationship between beta0 and beta1.
+beta_1' = beta_1
+beta_0' = beta_0 + beta_1*x(mean) 
 
 ### 1e)
 
-Okay do this later haha.
+
 
 ### 2a) Change the model to...
 mu[i] <- beta0 + beta1*x[i] + beta2*x[i]^2
@@ -176,4 +177,5 @@ the curvature term is nonzero, thus dispensing with some of the hand wavy talk a
 there being ‘no evidence against’ propositions, etc.
 
 Uh jesus I don't know man. Yea? Look at the posterior.
+
 

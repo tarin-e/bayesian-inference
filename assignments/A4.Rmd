@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 ### Assignment 4
 #### Tarin Eccleston
 
@@ -5,10 +10,10 @@
 the data mean x_bar. Would the two prior predictive distributions for̄ x_bar be the same or different?
 Explain your answer.
 
-Both E and U will have different prior predictive distributions (ppd) since both sampling distributions for E and U are different with exponential and uniform distributions respectively. The prior distributions remain the same. The ppd formula shown below.
+Both E and U will have different prior predictive distributions (ppd) for x_bar since both sampling distributions for E and U are different with exponential and uniform distributions respectively. The prior distributions remain the same. The general ppd formula shown below.
 
 $$
-p(x) =  \int_{0}^{\infty} p(x_i | \theta) p(\theta) d\theta
+p(\bar{x}) =  \int_{0}^{\infty} (\prod_{i = 1}^{5} p(x_i| \theta)) p(\theta) d\theta
 $$
 
 
@@ -21,10 +26,13 @@ Yes it does. If the main difference between E or U is the choice of uniform vs e
 Retain all constant factors.
 
 $$
-p(x | U) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} (\prod_{i = 1}^{5}\frac{1}{b})\frac{1}{b} e^{-\frac{1}{2} (\ln{b})^2} db
+p(\bar{x} | U) =  \frac{1}{\sqrt{2\pi}} \int_{x_{max}}^{\infty} (\prod_{i = 1}^{5}\frac{1}{b})\frac{1}{b} e^{-\frac{1}{2} (\ln{b})^2} db
 $$
+
+Likelihood function is not 1/b for all x. 
+
 $$
-p(x | E) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \lambda^4 e^{-(\frac{1}{2} (\ln{\lambda})^2 + 5\lambda\bar{x})} d\lambda
+p(\bar{x} | E) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \lambda^4 e^{-(\frac{1}{2} (\ln{\lambda})^2 + 5\lambda\bar{x})} d\lambda
 $$
 1d) Numerically find the values of the two marginal likelihoods.
 
@@ -126,7 +134,7 @@ Prior probabilities for U and E: 1/2
 
 ```{r}
 prior_probs = c(1/2, 1/2)
-lik = c(-0.3483763, -7.059105)
+lik = c(exp(-0.3483763), exp(-7.059105))
 
 h = prior_probs * lik
 Z = sum(h)

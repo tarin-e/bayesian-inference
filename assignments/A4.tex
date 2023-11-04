@@ -1,0 +1,550 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+\hypertarget{assignment-4}{%
+\subsubsection{Assignment 4}\label{assignment-4}}
+
+\hypertarget{tarin-eccleston}{%
+\paragraph{Tarin Eccleston}\label{tarin-eccleston}}
+
+1a) Both models E and U imply prior predictive distributions for the
+data, and hence the data mean x\_bar. Would the two prior predictive
+distributions for̄ x\_bar be the same or different? Explain your answer.
+
+Both E and U will have different prior predictive distributions (ppd)
+for x\_bar since both sampling distributions for E and U are different
+with exponential and uniform distributions respectively. The prior
+distributions remain the same. The general ppd formula shown below.
+
+\[
+p(\bar{x}) =  \int_{0}^{\infty} (\prod_{i = 1}^{5} p(x_i| \theta)) p(\theta) d\theta
+\]
+
+1b) Part (a) implies that learning only x\_bar would provide some
+information about whether E or U is true. Does this seem reasonable to
+you?
+
+Yes it does. If the main difference between E or U is the choice of
+uniform vs exponential sampling distributions, and we are given x\_bar,
+then we can evaluate the posterior distribution in terms of x\_bar. E or
+U with the highest posterior distribution would hence be the most true
+model.
+
+1c) Write down analytical expressions for the marginal likelihoods p(x
+\textbar{} U ) and p(x \textbar{} E). Retain all constant factors.
+
+\[
+p(\bar{x} | U) =  \frac{1}{\sqrt{2\pi}} \int_{x_{max}}^{\infty} (\prod_{i = 1}^{5}\frac{1}{b})\frac{1}{b} e^{-\frac{1}{2} (\ln{b})^2} db
+\]
+
+Likelihood function is not 1/b for all x.
+
+\[
+p(\bar{x} | E) =  \frac{1}{\sqrt{2\pi}} \int_{0}^{\infty} \lambda^4 e^{-(\frac{1}{2} (\ln{\lambda})^2 + 5\lambda\bar{x})} d\lambda
+\] 1d) Numerically find the values of the two marginal likelihoods.
+
+\hypertarget{output-code-for-model-u}{%
+\subsubsection{Output code for Model U}\label{output-code-for-model-u}}
+
+Marginal likelihood: ln(Z) = -0.3483763 +- 0.05943507. Information: H =
+0.3532527 nats. Effective posterior sample size = 337. Posterior samples
+saved in ns-posterior-samples.csv.
+
+\hypertarget{model-u-ns-model}{%
+\subsubsection{Model U ns-model}\label{model-u-ns-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num\_params }\OtherTok{=} \DecValTok{1}
+
+\NormalTok{parameter\_names }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"theta"}\NormalTok{)}
+
+\NormalTok{data }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.610164901707321}\NormalTok{, }\FloatTok{1.99984208494425}\NormalTok{, }\FloatTok{1.50817369576544}\NormalTok{, }\FloatTok{0.707493807654828}\NormalTok{,}
+                           \FloatTok{1.49413506453857}\NormalTok{), }\AttributeTok{N=}\DecValTok{5}\NormalTok{)}
+
+\NormalTok{us\_to\_params }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(us)}
+\NormalTok{\{}
+\NormalTok{    params }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, num\_params)}
+
+    \FunctionTok{names}\NormalTok{(params) }\OtherTok{=}\NormalTok{ parameter\_names}
+
+\NormalTok{    params[}\StringTok{"theta"}\NormalTok{] }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{1}\NormalTok{], }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+    \FunctionTok{return}\NormalTok{(params)}
+\NormalTok{\}}
+
+\NormalTok{log\_likelihood }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(params)}
+\NormalTok{\{}
+\NormalTok{    logL }\OtherTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dunif}\NormalTok{(}\AttributeTok{x =}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{min =} \DecValTok{0}\NormalTok{, }\AttributeTok{max =}\NormalTok{ params[}\StringTok{"theta"}\NormalTok{], }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{)[}\FunctionTok{is.finite}\NormalTok{(}\FunctionTok{dunif}\NormalTok{(}\AttributeTok{x =}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{min =} \DecValTok{0}\NormalTok{, }\AttributeTok{max =}\NormalTok{ params[}\StringTok{"theta"}\NormalTok{], }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))])}
+    \FunctionTok{return}\NormalTok{(logL)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{output-code-for-model-e}{%
+\subsubsection{Output code for Model E}\label{output-code-for-model-e}}
+
+Marginal likelihood: ln(Z) = -7.059105 +- 0.07194591. Information: H =
+0.5176214 nats. Effective posterior sample size = 356. Posterior samples
+saved in ns-posterior-samples.csv.
+
+\hypertarget{model-e-ns-model}{%
+\subsubsection{Model E ns-model}\label{model-e-ns-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num\_params }\OtherTok{=} \DecValTok{1}
+
+\NormalTok{parameter\_names }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"theta"}\NormalTok{)}
+
+\NormalTok{data }\OtherTok{=} \FunctionTok{list}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.610164901707321}\NormalTok{, }\FloatTok{1.99984208494425}\NormalTok{, }\FloatTok{1.50817369576544}\NormalTok{, }\FloatTok{0.707493807654828}\NormalTok{,}
+                           \FloatTok{1.49413506453857}\NormalTok{), }\AttributeTok{N=}\DecValTok{5}\NormalTok{)}
+
+\NormalTok{us\_to\_params }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(us)}
+\NormalTok{\{}
+\NormalTok{    params }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, num\_params)}
+
+    \FunctionTok{names}\NormalTok{(params) }\OtherTok{=}\NormalTok{ parameter\_names}
+
+\NormalTok{    params[}\StringTok{"theta"}\NormalTok{] }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{1}\NormalTok{], }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+    \FunctionTok{return}\NormalTok{(params)}
+\NormalTok{\}}
+
+\NormalTok{log\_likelihood }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(params)}
+\NormalTok{\{}
+\NormalTok{    logL }\OtherTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dexp}\NormalTok{(}\AttributeTok{x =}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{rate =}\NormalTok{ params[}\StringTok{"theta"}\NormalTok{], }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))}
+    \FunctionTok{return}\NormalTok{(logL)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z\_U }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{0.3483763}\NormalTok{)}
+\NormalTok{Z\_U}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7058332
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z\_E }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{7.059105}\NormalTok{)}
+\NormalTok{Z\_E}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.000859547
+\end{verbatim}
+
+1e)
+
+Find the Bayes Factor (either way around) and also the posterior
+probabilities of U and E, assuming prior probabilities of 1/2 each.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Bayes factor : U/E}
+\NormalTok{bayes\_factor }\OtherTok{=}\NormalTok{  Z\_U }\SpecialCharTok{/}\NormalTok{ Z\_E}
+\NormalTok{bayes\_factor}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 821.1688
+\end{verbatim}
+
+The uniform distribution is \textasciitilde800 times more likely to
+produce observed data compared to exponential distribution.
+
+Prior probabilities for U and E: 1/2
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{prior\_probs }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{lik }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{0.3483763}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{7.059105}\NormalTok{)}
+
+\NormalTok{h }\OtherTok{=}\NormalTok{ prior\_probs }\SpecialCharTok{*}\NormalTok{ lik}
+\NormalTok{Z }\OtherTok{=} \FunctionTok{sum}\NormalTok{(h)}
+
+\NormalTok{posterior\_odds }\OtherTok{=}\NormalTok{ h}\SpecialCharTok{/}\NormalTok{Z}
+\NormalTok{posterior\_odds}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.04703033 0.95296967
+\end{verbatim}
+
+1f) If p(b \textbar{} U ) were made much wider, the Bayes Factor would
+strongly favour E. Explain why this occurs.
+
+We have limited data therefore our posterior distributions are sensitive
+to the choice of prior. If our uniform prior margins for p(b \textbar{}
+U ) widen, we effectively decrease the prior probabilities for the same
+region which overlap the likelihood. We are also widen the likelihood
+since b is the standard deviation.
+
+As a result our posterior probabilities for p(b \textbar{} U, x)
+decreases. Hence our Bayes factor then decreases and favours E instead
+of U.
+
+2a) Implement Model A for Nested Sampling, and run it. In your answer,
+provide the following: (i) num\_params, (ii), parameter\_names, (iii)
+us\_to\_params(), (iv) log\_likelihood(), and (v) the estimated value of
+the marginal likelihood P (y \textbar{} A) and its uncertainty.
+
+\hypertarget{output-code-for-model-a}{%
+\subsubsection{Output code for Model A}\label{output-code-for-model-a}}
+
+Marginal likelihood: ln(Z) = -685.036 +- 0.3414809. Information: H =
+11.66092 nats. Effective posterior sample size = 594. Posterior samples
+saved in ns-posterior-samples.csv.
+
+\hypertarget{model-a-ns-model}{%
+\subsubsection{Model A ns-model}\label{model-a-ns-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num\_params }\OtherTok{=} \DecValTok{3}
+
+\NormalTok{parameter\_names }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"beta\_0"}\NormalTok{, }\StringTok{"beta\_1"}\NormalTok{, }\StringTok{"sigma"}\NormalTok{)}
+
+\NormalTok{colorado\_df }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../data/colorado.csv"}\NormalTok{)}
+
+\NormalTok{us\_to\_params }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(us)}
+\NormalTok{\{}
+\NormalTok{    params }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, num\_params)}
+
+    \FunctionTok{names}\NormalTok{(params) }\OtherTok{=}\NormalTok{ parameter\_names}
+
+\NormalTok{    params[}\StringTok{"beta\_0"}\NormalTok{] }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{1}\NormalTok{], }\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{    params[}\StringTok{"beta\_1"}\NormalTok{] }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{2}\NormalTok{], }\DecValTok{0}\NormalTok{, params[}\StringTok{"beta\_0"}\NormalTok{])}
+\NormalTok{    params[}\StringTok{"sigma"}\NormalTok{] }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{3}\NormalTok{], }\FunctionTok{log}\NormalTok{(params[}\StringTok{"beta\_0"}\NormalTok{]),}\DecValTok{1}\NormalTok{))}
+
+    \FunctionTok{return}\NormalTok{(params)}
+\NormalTok{\}}
+
+\NormalTok{log\_likelihood }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(params)}
+\NormalTok{\{}
+\NormalTok{    mu }\OtherTok{=}\NormalTok{ params[}\StringTok{"beta\_0"}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ params[}\StringTok{"beta\_1"}\NormalTok{]}\SpecialCharTok{*}\NormalTok{colorado\_df}\SpecialCharTok{$}\NormalTok{t}
+\NormalTok{    logL }\OtherTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dnorm}\NormalTok{(}\AttributeTok{x =}\NormalTok{ colorado\_df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{mean =}\NormalTok{ mu, }\AttributeTok{sd =}\NormalTok{ params[}\StringTok{"sigma"}\NormalTok{], }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))}
+    \FunctionTok{return}\NormalTok{(logL)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{marginal-likelihood}{%
+\paragraph{Marginal Likelihood}\label{marginal-likelihood}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z\_MA\_mu }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{685.036}\NormalTok{)}
+\NormalTok{Z\_MA\_mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.109176e-298
+\end{verbatim}
+
+\hypertarget{marginal-likelihood-error-range}{%
+\paragraph{Marginal Likelihood Error
+Range}\label{marginal-likelihood-error-range}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z\_MA\_error }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{685.036} \SpecialCharTok{{-}} \FloatTok{0.3414809}\NormalTok{), }\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{685.036} \SpecialCharTok{+} \FloatTok{0.3414809}\NormalTok{))}
+\NormalTok{Z\_MA\_error}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.209744e-298 4.374703e-298
+\end{verbatim}
+
+\hypertarget{output-code-for-model-b}{%
+\subsubsection{Output code for Model B}\label{output-code-for-model-b}}
+
+Marginal likelihood: ln(Z) = -683.9028 +- 0.366068. Information: H =
+13.40058 nats. Effective posterior sample size = 712. Posterior samples
+saved in ns-posterior-samples.csv.
+
+\hypertarget{model-b-ns-model}{%
+\subsubsection{Model B ns-model}\label{model-b-ns-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num\_params }\OtherTok{=} \DecValTok{4}
+
+\NormalTok{parameter\_names }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"beta\_0"}\NormalTok{, }\StringTok{"beta\_1"}\NormalTok{, }\StringTok{"beta\_2"}\NormalTok{, }\StringTok{"sigma"}\NormalTok{)}
+
+\NormalTok{colorado\_df }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../data/colorado.csv"}\NormalTok{)}
+
+\NormalTok{us\_to\_params }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(us)}
+\NormalTok{\{}
+\NormalTok{    params }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, num\_params)}
+
+    \FunctionTok{names}\NormalTok{(params) }\OtherTok{=}\NormalTok{ parameter\_names}
+
+\NormalTok{    params[}\StringTok{"beta\_0"}\NormalTok{] }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{1}\NormalTok{], }\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{    params[}\StringTok{"beta\_1"}\NormalTok{] }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{2}\NormalTok{], }\DecValTok{0}\NormalTok{, params[}\StringTok{"beta\_0"}\NormalTok{])}
+\NormalTok{    params[}\StringTok{"beta\_2"}\NormalTok{] }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{3}\NormalTok{], }\DecValTok{0}\NormalTok{, params[}\StringTok{"beta\_0"}\NormalTok{])}
+\NormalTok{    params[}\StringTok{"sigma"}\NormalTok{] }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{4}\NormalTok{], }\FunctionTok{log}\NormalTok{(params[}\StringTok{"beta\_0"}\NormalTok{]),}\DecValTok{1}\NormalTok{))}
+
+    \FunctionTok{return}\NormalTok{(params)}
+\NormalTok{\}}
+
+\NormalTok{log\_likelihood }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(params)}
+\NormalTok{\{}
+\NormalTok{    mu }\OtherTok{=}\NormalTok{ params[}\StringTok{"beta\_0"}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ params[}\StringTok{"beta\_1"}\NormalTok{]}\SpecialCharTok{*}\NormalTok{colorado\_df}\SpecialCharTok{$}\NormalTok{t }\SpecialCharTok{+}\NormalTok{ (colorado\_df}\SpecialCharTok{$}\NormalTok{t }\SpecialCharTok{\textgreater{}=} \FloatTok{0.875}\NormalTok{)}\SpecialCharTok{*}\NormalTok{params[}\StringTok{"beta\_2"}\NormalTok{]}\SpecialCharTok{*}\NormalTok{(colorado\_df}\SpecialCharTok{$}\NormalTok{t }\SpecialCharTok{{-}} \FloatTok{0.875}\NormalTok{)}
+\NormalTok{    logL }\OtherTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dnorm}\NormalTok{(}\AttributeTok{x =}\NormalTok{ colorado\_df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{mean =}\NormalTok{ mu, }\AttributeTok{sd =}\NormalTok{ params[}\StringTok{"sigma"}\NormalTok{], }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))}
+    \FunctionTok{return}\NormalTok{(logL)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{marginal-likelihood-1}{%
+\paragraph{Marginal Likelihood}\label{marginal-likelihood-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z\_MB\_mu }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{683.9028}\NormalTok{)}
+\NormalTok{Z\_MB\_mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9.65579e-298
+\end{verbatim}
+
+\hypertarget{marginal-likelihood-error-range-1}{%
+\paragraph{Marginal Likelihood Error
+Range}\label{marginal-likelihood-error-range-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z\_MB\_error }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{683.9028} \SpecialCharTok{{-}} \FloatTok{0.366068}\NormalTok{), }\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{683.9028} \SpecialCharTok{+} \FloatTok{0.366068}\NormalTok{))}
+\NormalTok{Z\_MB\_error}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6.695862e-298 1.392416e-297
+\end{verbatim}
+
+\hypertarget{output-code-for-model-c}{%
+\subsubsection{Output code for Model C}\label{output-code-for-model-c}}
+
+Marginal likelihood: ln(Z) = -680.6652 +- 0.3902254. Information: H =
+15.22758 nats. Effective posterior sample size = 700. Posterior samples
+saved in ns-posterior-samples.csv.
+
+\hypertarget{model-c-ns-model}{%
+\subsubsection{Model C ns-model}\label{model-c-ns-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num\_params }\OtherTok{=} \DecValTok{4}
+
+\NormalTok{parameter\_names }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"beta\_0"}\NormalTok{, }\StringTok{"beta\_1"}\NormalTok{, }\StringTok{"beta\_2"}\NormalTok{, }\StringTok{"sigma"}\NormalTok{)}
+
+\NormalTok{colorado\_df }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"../data/colorado.csv"}\NormalTok{)}
+
+\NormalTok{us\_to\_params }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(us)}
+\NormalTok{\{}
+\NormalTok{    params }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, num\_params)}
+
+    \FunctionTok{names}\NormalTok{(params) }\OtherTok{=}\NormalTok{ parameter\_names}
+
+\NormalTok{    params[}\StringTok{"beta\_0"}\NormalTok{] }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{1}\NormalTok{], }\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\NormalTok{    params[}\StringTok{"beta\_1"}\NormalTok{] }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{2}\NormalTok{], }\DecValTok{0}\NormalTok{, params[}\StringTok{"beta\_0"}\NormalTok{])}
+\NormalTok{    params[}\StringTok{"beta\_2"}\NormalTok{] }\OtherTok{=} \FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{3}\NormalTok{], }\DecValTok{0}\NormalTok{, params[}\StringTok{"beta\_0"}\NormalTok{])}
+\NormalTok{    params[}\StringTok{"sigma"}\NormalTok{] }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\FunctionTok{qnorm}\NormalTok{(us[}\DecValTok{4}\NormalTok{], }\FunctionTok{log}\NormalTok{(params[}\StringTok{"beta\_0"}\NormalTok{]),}\DecValTok{1}\NormalTok{))}
+
+    \FunctionTok{return}\NormalTok{(params)}
+\NormalTok{\}}
+
+\NormalTok{log\_likelihood }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(params)}
+\NormalTok{\{}
+\NormalTok{    mu }\OtherTok{=}\NormalTok{ params[}\StringTok{"beta\_0"}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ params[}\StringTok{"beta\_1"}\NormalTok{]}\SpecialCharTok{*}\NormalTok{colorado\_df}\SpecialCharTok{$}\NormalTok{t }\SpecialCharTok{+}\NormalTok{ params[}\StringTok{"beta\_2"}\NormalTok{]}\SpecialCharTok{*}\NormalTok{(colorado\_df}\SpecialCharTok{$}\NormalTok{t)}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{    logL }\OtherTok{=} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dnorm}\NormalTok{(}\AttributeTok{x =}\NormalTok{ colorado\_df}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{mean =}\NormalTok{ mu, }\AttributeTok{sd =}\NormalTok{ params[}\StringTok{"sigma"}\NormalTok{], }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))}
+    \FunctionTok{return}\NormalTok{(logL)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{marginal-likelihood-2}{%
+\paragraph{Marginal Likelihood}\label{marginal-likelihood-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z\_MC\_mu }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{680.6652}\NormalTok{)}
+\NormalTok{Z\_MC\_mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.459572e-296
+\end{verbatim}
+
+\hypertarget{marginal-likelihood-error-range-2}{%
+\paragraph{Marginal Likelihood Error
+Range}\label{marginal-likelihood-error-range-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z\_MC\_error }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{680.6652} \SpecialCharTok{{-}} \FloatTok{0.3902254}\NormalTok{), }\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{680.6652} \SpecialCharTok{+} \FloatTok{0.3902254}\NormalTok{))}
+\NormalTok{Z\_MC\_error}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.664895e-296 3.633560e-296
+\end{verbatim}
+
+2d) If the three models have prior probabilities P (A) = P (B) = P (C) =
+1/3, find the super-duper-marginalised likelihood P (y \textbar{} A ∨ B
+∨ C) and the three posterior probabilities.
+
+this is the same as p(y)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{prior }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{, }\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{, }\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{marg\_lik }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{685.036}\NormalTok{), }\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{683.9028}\NormalTok{), }\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{680.6652}\NormalTok{))}
+
+\NormalTok{h\_super }\OtherTok{=}\NormalTok{ prior }\SpecialCharTok{*}\NormalTok{ marg\_lik}
+\NormalTok{Z\_super }\OtherTok{=} \FunctionTok{sum}\NormalTok{(h\_super)}
+\NormalTok{Z\_super}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 8.624074e-297
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{posterior\_probabilities }\OtherTok{=}\NormalTok{ h\_super }\SpecialCharTok{/}\NormalTok{ Z\_super}
+\NormalTok{posterior\_probabilities}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.01201743 0.03732107 0.95066150
+\end{verbatim}
+
+\end{document}
