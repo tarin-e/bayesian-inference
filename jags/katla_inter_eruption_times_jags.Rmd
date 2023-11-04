@@ -1,6 +1,7 @@
 ```{r}
 model_1 = "model {
   lambda ~ dgamma(0.001, 0.001)
+  mu = 1/lambda
   for (i in 1:length(inter_eruption_time)) {
     inter_eruption_time[i] ~ dexp(lambda)
   }
@@ -16,6 +17,72 @@ for (i in 1:(length(eruption_years) - 1)) {
   data <- rbind(data, data.frame(inter_eruption_time = inter_eruption_time))
 }
 
-variable_names = c("lambda")
+variable_names = c("lambda", "mu")
+```
+
+```{r}
+# How many proper steps?
+steps = 100000
+
+# Thinning?
+thin = 10
+
+# Import the rjags library
+library("rjags")
+
+# Create a JAGS model object
+jm = jags.model(textConnection(model_1), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+```
+
+```{r}
+hist(results$mu, breaks = 50)
+```
+Estimate the posterior probability that the time between less than 50 years.
+
+```{r}
+sum(results$mu < 50) / length(results$mu)
+```
+
+What would you need to add to the JAGS code to obtain an estimate of the posterior predicted year of the next eruption?
+
+```{r}
+model_2 = "model {
+  lambda ~ dgamma(0.001, 0.001)
+  mu = 1/lambda
+  for (i in 1:length(inter_eruption_time)) {
+    inter_eruption_time[i] ~ dexp(lambda)
+  }
+  
+  new_year <- 1918 + eruption_years_new
+  eruption_years_new ~ dexp(lambda)
+}"
+
+inter_eruption_times <- rbind(inter_eruption_times, data.frame(inter_eruption_time = NA))
+
+variable_names = c("lambda", "mu", "eruption_years_new")
+```
+
+```{r}
+# Create a JAGS model object
+jm = jags.model(textConnection(model_2), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+```
+
+```{r}
+hist(results$eruption_years_new, breaks = 500)
+```
+```{r}
+mean(results$eruption_years_new)
 ```
 
