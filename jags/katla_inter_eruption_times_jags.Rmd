@@ -1,0 +1,21 @@
+```{r}
+model_1 = "model {
+  lambda ~ dgamma(0.001, 0.001)
+  for (i in 1:length(inter_eruption_time)) {
+    inter_eruption_time[i] ~ dexp(lambda)
+  }
+}"
+
+# sort out data
+eruption_years <- c(1177, 1262, 1311, 1357, 1416, 1440, 1450, 1500, 1550, 1580, 1612, 1625, 1660, 1721, 1755, 1823, 1860, 1918)
+
+data <- data.frame(inter_eruption_time = numeric())
+
+for (i in 1:(length(eruption_years) - 1)) {
+  inter_eruption_time <- eruption_years[i + 1] - eruption_years[i]
+  data <- rbind(data, data.frame(inter_eruption_time = inter_eruption_time))
+}
+
+variable_names = c("lambda")
+```
+

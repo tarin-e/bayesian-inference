@@ -1,0 +1,75 @@
+```{r}
+model_1 <- "
+model {
+  # Populations of the three cities
+  city_populations[1] <- 1000000
+  city_populations[2] <- 500000
+  city_populations[3] <- 100000
+
+  # Priors
+  mu ~ dnorm(0, 1/5^2)
+  sigma ~ dunif(0, 2)
+  
+  # Calculate lambda for each city
+  for (i in 1:3) {
+    log_lambda[i] ~ dnorm(mu, 1/sigma^2)
+    lambda[i] <- exp(log_lambda[i])
+  }
+
+  # Likelihood
+  for (j in 1:14) {
+    crashes[j] ~ dpois(city_populations[city[j]] / 1000000 * lambda[city[j]])
+  }
+}
+"
+
+# A dataset
+data <- "1 1 45
+1 2 33
+1 3 37
+1 4 42
+1 5 50
+1 6 40
+1 7 30
+2 1 29
+2 2 30
+2 3 20
+3 1 8
+3 2 11
+3 3 12
+3 4 10"
+
+# Use read.table to read the data and specify the column names
+data <- read.table(text = data, header = FALSE)
+
+# Assign meaningful column names
+colnames(data) <- c("city", "month", "crashes")
+
+# Variables to monitor
+variable_names = c("mu", "sigma", "lambda", "crashes")
+```
+
+```{r}
+# How many proper steps?
+steps = 100000
+
+# Thinning?
+thin = 10
+
+# Import the rjags library
+library("rjags")
+
+# Create a JAGS model object
+jm = jags.model(textConnection(model_1), data)
+
+# Do some MCMC
+results = coda.samples(jm, variable_names, steps, thin=thin)
+
+# Extract chains as data frame
+results = as.data.frame(results[[1]])
+```
+
+```{r}
+plot(results$mu, results$sigma, cex=0.1)
+```
+
