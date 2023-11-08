@@ -17,7 +17,9 @@ for (i in 1:(length(eruption_years) - 1)) {
   data <- rbind(data, data.frame(inter_eruption_time = inter_eruption_time))
 }
 
-variable_names = c("lambda", "mu")
+data <- rbind(data, data.frame(inter_eruption_time = NA))
+
+variable_names = c("lambda", "mu", "inter_eruption_time")
 ```
 
 ```{r}
@@ -49,6 +51,20 @@ Estimate the posterior probability that the time between less than 50 years.
 sum(results$mu < 50) / length(results$mu)
 ```
 
+Prior Predictive Distribution of New Intereruption Time
+
+```{r}
+hist(results$`inter_eruption_time[18]`, breaks = 50)
+```
+
+```{r}
+sorted = sort(results$`inter_eruption_time[18]`)
+post_median = sorted[0.5*length(results$`inter_eruption_time[18]`)]
+post_median
+```
+
+
+
 What would you need to add to the JAGS code to obtain an estimate of the posterior predicted year of the next eruption?
 
 ```{r}
@@ -62,8 +78,6 @@ model_2 = "model {
   new_year <- 1918 + eruption_years_new
   eruption_years_new ~ dexp(lambda)
 }"
-
-inter_eruption_times <- rbind(inter_eruption_times, data.frame(inter_eruption_time = NA))
 
 variable_names = c("lambda", "mu", "eruption_years_new")
 ```

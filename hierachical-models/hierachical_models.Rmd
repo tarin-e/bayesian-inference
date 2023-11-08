@@ -49,6 +49,7 @@ results = as.data.frame(results[[1]])
 ```{r}
 hist(results$mu, breaks = 100)
 hist(results$sigma, breaks = 100)
+plot(results$sigma, results$mu, cex=0.05)
 ```
 
 Looking at only season 1 and season 17. Compare credible intervals.
@@ -82,8 +83,8 @@ hist_results <- hist(results$`theta[17]`, breaks = 100)
 breaks <- hist_results$breaks
 colors <- ifelse(breaks >= cred[1] & breaks <= cred[2], "red", "skyblue")
 
-hist(results$`theta[17]`, breaks = 100, main = "Histogram of theta[1]", 
-     xlab = "Theta[1]", ylab = "Frequency", col = colors)
+hist(results$`theta[17]`, breaks = 100, main = "Histogram of theta[17]", 
+     xlab = "Theta[17]", ylab = "Frequency", col = colors)
 ```
 
 ```{r}
@@ -148,6 +149,6 @@ breaks <- hist_results$breaks
 colors <- ifelse(breaks >= cred[1] & breaks <= cred[2], "red", "skyblue")
 
 hist(results$successes_new, breaks = 100, main = "Histogram of 100 new attempts", 
-     xlab = "Theta[1]", ylab = "Frequency", col = colors)
+     xlab = "successes_new", ylab = "Frequency", col = colors)
 ```
 
